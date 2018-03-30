@@ -1,3 +1,4 @@
+#-*- coding: UTF-8 -*-
 """
 Django settings for automationreport project.
 
@@ -81,28 +82,29 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test', 
-        'USER': 'huangshunyao',
-        'PASSWORD': "Hsy5332#",
-        'HOST': "steel.iask.in",
-        'PORT': '19008',
-    }
-}
-'''
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test', #±íÃû
+        'NAME': 'test',
         'USER': 'huangshunyao',
         'PASSWORD': "Hsy5332#",
         #'HOST': "steel.iask.in",
         'HOST': "192.168.1.9",
         'PORT': '33006',
+    }
+}
+
+'''
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'automation_db',
+        'USER': 'huangshunyao',
+        'PASSWORD': "Hsy5332#",
+        'HOST': "steel.iask.in",
+        'PORT': '19008',
     }
 }
 
@@ -143,4 +145,4 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') #ÅäÖÃ¾²Ì¬ÎÄ¼þµÄÂ·¾¶
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') #ï¿½ï¿½ï¿½Ã¾ï¿½Ì¬ï¿½Ä¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½
