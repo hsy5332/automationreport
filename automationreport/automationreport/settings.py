@@ -85,7 +85,11 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+<<<<<<< HEAD
         'NAME': 'automation_db',
+=======
+        'NAME': 'test',
+>>>>>>> 87010e18b35c492da42176bae9de6b1b4ba0a22d
         'USER': 'huangshunyao',
         'PASSWORD': "Hsy5332#",
         #'HOST': "steel.iask.in",
