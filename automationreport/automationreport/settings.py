@@ -85,19 +85,13 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-<<<<<<< HEAD
         'NAME': 'automation_db',
-=======
-        'NAME': 'test',
->>>>>>> 87010e18b35c492da42176bae9de6b1b4ba0a22d
         'USER': 'huangshunyao',
         'PASSWORD': "Hsy5332#",
-        #'HOST': "steel.iask.in",
-        'HOST': "192.168.1.9",
-        'PORT': '33006',
+        'HOST': "steel.iask.in",
+        'PORT': '19008',
     }
 }
-
 '''
 
 
@@ -107,10 +101,11 @@ DATABASES = {
         'NAME': 'automation_db',
         'USER': 'huangshunyao',
         'PASSWORD': "Hsy5332#",
-        'HOST': "steel.iask.in",
-        'PORT': '19008',
+        'HOST': "192.168.1.9",
+        'PORT': '33006',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
