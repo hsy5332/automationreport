@@ -160,8 +160,8 @@ def launchapp(request):
             except:
                 return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
         else:
-            launchapp = {"code": "-11", "msg": "token过期", "data": {}}
-            return HttpResponse(json.dumps(launchapp))
+            launchapp_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+            return HttpResponse(json.dumps(launchapp_tokenerror))
     else:
         launchapp_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
         return HttpResponse(json.dumps(launchapp_error))
@@ -169,19 +169,239 @@ def launchapp(request):
 
 # 内存占有率查询
 def menapp(request):
-    return render(request, 'index.html')
+    if request.POST:
+        if token(request.POST['token']):
+            try:
+                if request.POST['startdate'] and request.POST['enddate'] != "":
+                    startdate = request.POST['startdate']
+                    enddate = request.POST['enddate']
+                    menappdatas = models.automation_mem_app.objects.filter(caseid=request.POST['caseid'])
+                    menappdataslist = []
+                    for menappdata in range(0, len(menappdatas)):
+                        if menappdatas[menappdata].createdtime >= startdate and menappdatas[
+                            menappdata].createdtime <= enddate:
+                            menapp_querydata = {
+                                "id": menappdatas[menappdata].id,
+                                "caseid": menappdatas[menappdata].caseid,
+                                "starttime": menappdatas[menappdata].starttime,
+                                "endtime": menappdatas[menappdata].endtime,
+                                "memorysize": menappdatas[menappdata].memorysize,
+                                "monkeyscript": menappdatas[menappdata].monkeyscript,
+                                "functionscript": menappdatas[menappdata].functionscript,
+                                "runtime": menappdatas[menappdata].runtime,
+                                "eventid": menappdatas[menappdata].eventid,
+                                "createdtime": menappdatas[menappdata].createdtime,
+                            }
+                            menappdataslist.append(menapp_querydata)
+                    return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": menappdataslist}))
+                else:
+                    menappdatas = models.automation_mem_app.objects.filter(caseid=request.POST['caseid'])
+                    menappdataslist = []
+                    for menappdata in range(0, len(menappdatas)):
+                        menapp_querydata = {
+                            "id": menappdatas[menappdata].id,
+                            "caseid": menappdatas[menappdata].caseid,
+                            "starttime": menappdatas[menappdata].starttime,
+                            "endtime": menappdatas[menappdata].endtime,
+                            "memorysize": menappdatas[menappdata].memorysize,
+                            "monkeyscript": menappdatas[menappdata].monkeyscript,
+                            "functionscript": menappdatas[menappdata].functionscript,
+                            "runtime": menappdatas[menappdata].runtime,
+                            "eventid": menappdatas[menappdata].eventid,
+                            "createdtime": menappdatas[menappdata].createdtime,
+                        }
+                        menappdataslist.append(menapp_querydata)
+                    return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": menappdataslist}))
+            except:
+                return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
+        else:
+            menapp_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+            return HttpResponse(json.dumps(menapp_tokenerror))
+    else:
+        menapp_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(menapp_error))
 
 
 # 接口测试查询
 def interface(request):
-    return render(request, 'index.html')
+    if request.POST:
+        if token(request.POST['token']):
+            try:
+                if request.POST['startdate'] and request.POST['enddate'] != "":
+                    startdate = request.POST['startdate']
+                    enddate = request.POST['enddate']
+                    interfacedatas = models.automation_interface.objects.filter(caseid=request.POST['caseid'])
+                    interfacedatalist = []
+                    for interfacedata in range(0, len(interfacedatas)):
+                        if interfacedatas[interfacedata].createdtime >= startdate and interfacedatas[
+                            interfacedata].createdtime <= enddate:
+                            interface_querydata = {
+                                "id": interfacedatas[interfacedata].id,
+                                "caseid": interfacedatas[interfacedata].caseid,
+                                "interfaceurl": interfacedatas[interfacedata].interfaceurl,
+                                "requestparameter": interfacedatas[interfacedata].id,
+                                "returnparameter": interfacedatas[interfacedata].requestparameter,
+                                "requesttype": interfacedatas[interfacedata].requesttype,
+                                "casestatus": interfacedatas[interfacedata].casestatus,
+                                "remark": interfacedatas[interfacedata].remark,
+                                "eventid": interfacedatas[interfacedata].eventid,
+                                "createdtime": interfacedatas[interfacedata].createdtime,
+                            }
+                            interfacedatalist.append(interface_querydata)
+                    return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": interfacedatalist}))
+                else:
+                    interfacedatas = models.automation_interface.objects.filter(caseid=request.POST['caseid'])
+                    interfacedatalist = []
+                    for interfacedata in range(0, len(interfacedatas)):
+                        interface_querydata = {
+                            "id": interfacedatas[interfacedata].id,
+                            "caseid": interfacedatas[interfacedata].caseid,
+                            "interfaceurl": interfacedatas[interfacedata].interfaceurl,
+                            "requestparameter": interfacedatas[interfacedata].id,
+                            "returnparameter": interfacedatas[interfacedata].requestparameter,
+                            "requesttype": interfacedatas[interfacedata].requesttype,
+                            "casestatus": interfacedatas[interfacedata].casestatus,
+                            "remark": interfacedatas[interfacedata].remark,
+                            "eventid": interfacedatas[interfacedata].eventid,
+                            "createdtime": interfacedatas[interfacedata].createdtime,
+                        }
+                        interfacedatalist.append(interface_querydata)
+                    return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": interfacedatalist}))
+            except:
+                return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
+        else:
+            interface_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+            return HttpResponse(json.dumps(interface_tokenerror))
+    else:
+        interface_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(interface_error))
 
 
 # App功能测试查询
 def functionapp(request):
-    return render(request, 'index.html')
+    if request.POST:
+        if token(request.POST['token']):
+            try:
+                if request.POST['startdate'] and request.POST['enddate'] != "":
+                    startdate = request.POST['startdate']
+                    enddate = request.POST['enddate']
+                    functionappdatas = models.automation_function_app.objects.filter(caseid=request.POST['caseid'])
+                    functionappdatalist = []
+                    for functionappdata in range(0, len(functionappdatas)):
+                        if functionappdatas[functionappdata].createdtime >= startdate and functionappdatas[
+                            functionappdata].createdtime <= enddate:
+                            functionapp_querydata = {
+                                "id": functionappdatas[functionappdata].id,
+                                "caseid": functionappdatas[functionappdata].caseid,
+                                "devicesinfos": functionappdatas[functionappdata].devicesinfos,
+                                "appiumport": functionappdatas[functionappdata].appiumport,
+                                "devicesexecute": functionappdatas[functionappdata].devicesexecute,
+                                "operatetype": functionappdatas[functionappdata].operatetype,
+                                "parameter": functionappdatas[functionappdata].parameter,
+                                "waittime": functionappdatas[functionappdata].waittime,
+                                "element": functionappdatas[functionappdata].element,
+                                "rundescribe": functionappdatas[functionappdata].rundescribe,
+                                "casereport": functionappdatas[functionappdata].casereport,
+                                "caseexecute": functionappdatas[functionappdata].caseexecute,
+                                "runcasetime": functionappdatas[functionappdata].runcasetime,
+                                "eventid": functionappdatas[functionappdata].eventid,
+                                "createdtime": functionappdatas[functionappdata].createdtime,
+                            }
+                            functionappdatalist.append(functionapp_querydata)
+                    return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionappdatalist}))
+                else:
+                    functionappdatas = models.automation_function_app.objects.filter(caseid=request.POST['caseid'])
+                    functionappdatalist = []
+                    for functionappdata in range(0, len(functionappdatas)):
+                        functionapp_querydata = {
+                            "id": functionappdatas[functionappdata].id,
+                            "caseid": functionappdatas[functionappdata].caseid,
+                            "devicesinfos": functionappdatas[functionappdata].devicesinfos,
+                            "appiumport": functionappdatas[functionappdata].appiumport,
+                            "devicesexecute": functionappdatas[functionappdata].devicesexecute,
+                            "operatetype": functionappdatas[functionappdata].operatetype,
+                            "parameter": functionappdatas[functionappdata].parameter,
+                            "waittime": functionappdatas[functionappdata].waittime,
+                            "element": functionappdatas[functionappdata].element,
+                            "rundescribe": functionappdatas[functionappdata].rundescribe,
+                            "casereport": functionappdatas[functionappdata].casereport,
+                            "caseexecute": functionappdatas[functionappdata].caseexecute,
+                            "runcasetime": functionappdatas[functionappdata].runcasetime,
+                            "eventid": functionappdatas[functionappdata].eventid,
+                            "createdtime": functionappdatas[functionappdata].createdtime,
+                        }
+                        functionappdatalist.append(functionapp_querydata)
+                    return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionappdatalist}))
+            except:
+                return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
+        else:
+            functionapp_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+            return HttpResponse(json.dumps(functionapp_tokenerror))
+    else:
+        functionapp_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(functionapp_error))
 
 
 # Web功能测试查询
 def functionweb(request):
-    return render(request, 'index.html')
+    if request.POST:
+        if token(request.POST['token']):
+            try:
+                if request.POST['startdate'] and request.POST['enddate'] != "":
+                    startdate = request.POST['startdate']
+                    enddate = request.POST['enddate']
+                    functionwebdatas = models.automation_function_web.objects.filter(caseid=request.POST['caseid'])
+                    functionwebdatalist = []
+                    for functionwebdata in range(0, len(functionwebdatas)):
+                        if functionwebdatas[functionwebdata].createdtime >= startdate and functionwebdatas[
+                            functionwebdata].createdtime <= enddate:
+                            functionweb_querydata = {
+                                "id": functionwebdatas[functionwebdata].id,
+                                "caseid": functionwebdatas[functionwebdata].caseid,
+                                "browsername": functionwebdatas[functionwebdata].browsername,
+                                "browserconfigure": functionwebdatas[functionwebdata].browserconfigure,
+                                "browserstatus": functionwebdatas[functionwebdata].browserstatus,
+                                "operatetype": functionwebdatas[functionwebdata].operatetype,
+                                "element": functionwebdatas[functionwebdata].element,
+                                "parameter": functionwebdatas[functionwebdata].parameter,
+                                "waittime": functionwebdatas[functionwebdata].waittime,
+                                "rundescribe": functionwebdatas[functionwebdata].rundescribe,
+                                "casereport": functionwebdatas[functionwebdata].casereport,
+                                "caseexecute": functionwebdatas[functionwebdata].caseexecute,
+                                "runcasetime": functionwebdatas[functionwebdata].runcasetime,
+                                "eventid": functionwebdatas[functionwebdata].eventid,
+                                "createdtime": functionwebdatas[functionwebdata].createdtime,
+                            }
+                            functionwebdatalist.append(functionweb_querydata)
+                    return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionwebdatalist}))
+                else:
+                    functionwebdatas = models.automation_function_web.objects.filter(caseid=request.POST['caseid'])
+                    functionwebdatalist = []
+                    for functionwebdata in range(0, len(functionwebdatas)):
+                        functionweb_querydata = {
+                            "id": functionwebdatas[functionwebdata].id,
+                            "caseid": functionwebdatas[functionwebdata].caseid,
+                            "browsername": functionwebdatas[functionwebdata].browsername,
+                            "browserconfigure": functionwebdatas[functionwebdata].browserconfigure,
+                            "browserstatus": functionwebdatas[functionwebdata].browserstatus,
+                            "operatetype": functionwebdatas[functionwebdata].operatetype,
+                            "element": functionwebdatas[functionwebdata].element,
+                            "parameter": functionwebdatas[functionwebdata].parameter,
+                            "waittime": functionwebdatas[functionwebdata].waittime,
+                            "rundescribe": functionwebdatas[functionwebdata].rundescribe,
+                            "casereport": functionwebdatas[functionwebdata].casereport,
+                            "caseexecute": functionwebdatas[functionwebdata].caseexecute,
+                            "runcasetime": functionwebdatas[functionwebdata].runcasetime,
+                            "eventid": functionwebdatas[functionwebdata].eventid,
+                            "createdtime": functionwebdatas[functionwebdata].createdtime,
+                        }
+                        functionwebdatalist.append(functionweb_querydata)
+                    return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionwebdatalist}))
+            except:
+                return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
+        else:
+            functionapp_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+            return HttpResponse(json.dumps(functionapp_tokenerror))
+    else:
+        functionapp_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(functionapp_error))
