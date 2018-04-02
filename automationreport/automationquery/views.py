@@ -65,7 +65,9 @@ def cpu(request):
         if token(request.POST['token']):
             try:
                 if request.POST['startdate'] and request.POST['enddate'] != "":
+                    #判断开始时间和结束时间是否为空
                     if request.POST['eventid'] != "":
+                        #判断eventid 是否为空
                         startdate = request.POST['startdate']
                         enddate = request.POST['enddate']
                         querydatas = models.automation_cpu_app.objects.filter(caseid=request.POST['caseid'])

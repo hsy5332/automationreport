@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 
-
+#用户信息表
 class automation_user(models.Model):
     username = models.CharField(max_length=40);
     password = models.CharField(max_length=40);
@@ -11,7 +11,7 @@ class automation_user(models.Model):
     updatetime = models.DateTimeField(default='auto_now');
 
 
-
+#Cpu数据表
 class automation_cpu_app(models.Model):
     cpuproportion = models.CharField(max_length=100);
     starttime = models.CharField(max_length=20);
@@ -24,7 +24,7 @@ class automation_cpu_app(models.Model):
     caseid = models.CharField(max_length=10);
     eventid = models.CharField(max_length=100);
 
-
+#APP启动数据
 class automation_launch_app(models.Model):
     starttime = models.CharField(max_length=50);
     launchtime = models.CharField(max_length=50);
@@ -36,7 +36,7 @@ class automation_launch_app(models.Model):
     eventid = models.CharField(max_length=100);
 
 
-
+#APP内存使用数据
 class automation_mem_app(models.Model):
     memorysize = models.CharField(max_length=50);
     starttime = models.CharField(max_length=50);
@@ -49,7 +49,7 @@ class automation_mem_app(models.Model):
     caseid = models.CharField(max_length=50);
     eventid = models.CharField(max_length=50);
 
-
+#接口数据
 class automation_interface(models.Model):
     interfaceurl = models.CharField(max_length=200);
     requestparameter = models.CharField(max_length=200);
@@ -62,7 +62,7 @@ class automation_interface(models.Model):
     createdtime = models.DateTimeField(default='auto_now_add');
     updatetime = models.DateTimeField(default='auto_now');
 
-
+#自动化APP功能测试结果
 class automation_function_web(models.Model):
     browsername = models.CharField(max_length=200);
     browserconfigure = models.CharField(max_length=10);
@@ -80,7 +80,7 @@ class automation_function_web(models.Model):
     createdtime = models.DateTimeField(default='auto_now_add');
     updatetime = models.DateTimeField(default='auto_now');
 
-
+#自动化web功能测试结果
 class automation_function_app(models.Model):
     devicesinfos = models.CharField(max_length=200);
     appiumport = models.CharField(max_length=10);
