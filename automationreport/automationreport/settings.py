@@ -1,4 +1,4 @@
-#-*- coding: UTF-8 -*-
+# -*- coding: UTF-8 -*-
 """
 Django settings for automationreport project.
 
@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -26,8 +25,7 @@ SECRET_KEY = '^mh=alv$2zehy8@ejaq^icr169s*#l8(xm*53oz#h_c(@gb^le'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
-
+ALLOWED_HOSTS = ['*', ]
 
 # Application definition
 
@@ -45,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -71,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'automationreport.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -83,6 +80,7 @@ DATABASES = {
     }
 }
 '''
+# 线上环境
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -95,6 +93,7 @@ DATABASES = {
 }
 
 '''
+# 测试环境
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -125,7 +124,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -139,9 +137,12 @@ USE_L10N = True
 
 USE_TZ = False
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static') #静态文件配置
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') #静态文件配置
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static').replace('\\', '/'),
+)
