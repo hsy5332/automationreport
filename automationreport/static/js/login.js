@@ -1,10 +1,12 @@
 
+var token = "2131231"
 function automationlogin() {
     var usernmae = document.getElementById("username");
     var password = document.getElementById("password");
-    console.log(usernmae)
-    if (usernmae.value == "123") {
+    if (usernmae.value == "") {
         alert("请输入用户名");
-        return false;
+    }
+    if(password.value == ""){
+        alert("请输入密码");
     }
 }
