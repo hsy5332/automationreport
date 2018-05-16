@@ -9,11 +9,12 @@ function automationlogin() {
     requestlogin.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     requestlogin.send(requestdata);
     requestlogin.onreadystatechange = function () {
+        console.log(requestlogin.responseText)
         if (requestlogin.readyState == 4 && requestlogin.status == 200) {
             loginresponsejson = JSON.parse(requestlogin.responseText);
             if (loginresponsejson != "") {
                 if (loginresponsejson.code == '200') {
-                    document.getElementById("request_tooltip").innerText = "登录成功";
+                    window.location.href = "query";
                 }
                 else if (loginresponsejson.code == '100') {
                     document.getElementById("request_tooltip").innerText = "该用户账号已经被禁用，请联系管理员。";

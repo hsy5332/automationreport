@@ -7,9 +7,13 @@ from automationquery import models
 from django.http import HttpResponse
 
 
+#登录页面
 def index(request):
-    userinfo = models.automation_user.objects.get(id=1)
-    return render(request, 'index.html', {"TEST": userinfo.username})
+    return render(request, 'index.html')
+
+#查询页面
+def query(request):
+    return render(request, 'query.html')
 
 
 # token计算规则
@@ -65,9 +69,9 @@ def cpu(request):
         if token(request.POST['token']):
             try:
                 if request.POST['startdate'] and request.POST['enddate'] != "":
-                    #判断开始时间和结束时间是否为空
+                    # 判断开始时间和结束时间是否为空
                     if request.POST['eventid'] != "":
-                        #判断eventid 是否为空
+                        # 判断eventid 是否为空
                         startdate = request.POST['startdate']
                         enddate = request.POST['enddate']
                         querydatas = models.automation_cpu_app.objects.filter(caseid=request.POST['caseid'])
