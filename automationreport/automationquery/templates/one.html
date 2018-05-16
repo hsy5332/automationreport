@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+        function loadXMLDoc() {
+            var htmlhttp;
+            var requestdata='username=huangshunyao&password=123&token=1526524298'
+            htmlhttp = new XMLHttpRequest();
+            htmlhttp.open("POST", "/automationquery/login", true);
+            htmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            htmlhttp.send(requestdata);
+            htmlhttp.onreadystatechange = function () {
+                if (htmlhttp.readyState == 4 && htmlhttp.status == 200) {
+                }
+
+                try {
+                    testone = JSON.parse(htmlhttp.responseText);
+                }
+                catch (err) {
+
+                }
+                if (htmlhttp.response != "") {
+                    if (testone.code == '200') {
+                        username = testone.data.username;
+                        userstatus = testone.data.userstatus;
+                        userid = testone.data.userid;
+                        document.getElementById('myDiv').innerHTML = "username:" + username + "userstatus:" + userstatus + "userid:" + userid;
+                    }
+                    else if (testone.code == '102') {
+                        document.getElementById('myDiv').innerHTML = "账号或密码错误"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+<h2>AJAX</h2>
+<button type="button" onclick="loadXMLDoc()">请求数据</button>
+<div id="myDiv">
+    今天的日期
+</div>
+
+</body>
+</html>
+
+

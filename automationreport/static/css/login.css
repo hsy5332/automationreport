@@ -160,3 +160,10 @@ input[type=submit], input[type=button] {
     display: block;
     line-height: 50px;
 }
+
+#request_tooltip {
+    position: relative;
+    text-align: center;
+    color: red;
+    
+}

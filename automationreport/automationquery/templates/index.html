@@ -7,7 +7,7 @@
     <meta http-equiv="Expires" content="0">
     <title>后台管理</title>
     <link href="../../static/css/login.css" rel="stylesheet" type="text/css"/>
-    <script tyep="text/javascript" src="../../static/js/login.js"></script>
+    <script src="../../static/js/login.js"></script>
 </head>
 
 <body>
@@ -18,15 +18,15 @@
         <div class="login_name">
             <p>后台管理系统</p>
         </div>
-        <form method="post">
-            <input name="username" id="username" type="text" value="用户名" onfocus="this.value=''"
-                   onblur="if(this.value==''){this.value='用户名'}">
-            <span id="password_text"
-                  onclick="this.style.display='none';document.getElementById('password').style.display='block';">密码</span>
-            <input name="password" type="password" id="password" style="display:none;"
-                   onblur="if(this.value==''){document.getElementById('password_text').style.display='block';this.style.display='none'};"/>
-            <input value="登录" style="width:100%;" type="submit" onclick="automationlogin();">
-        </form>
+        <input name="username" id="username" type="text" value="用户名" onfocus="this.value=''"
+               onblur="if(this.value==''){this.value='用户名'}">
+        <span id="password_text"
+              onclick="this.style.display='none';document.getElementById('password').style.display='block';">密码</span>
+        <input name="password" type="password" id="password" style="display:none;"
+               onblur="if(this.value==''){document.getElementById('password_text').style.display='block';this.style.display='none'};"/>
+        <p id="request_tooltip" ></p>
+        <input value="登录" style="width:100%;" type="button" onclick="automationlogin();">
+
     </div>
 </div>
 </body>
