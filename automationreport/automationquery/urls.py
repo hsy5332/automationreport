@@ -8,7 +8,7 @@ urlpatterns = [
                   # 页面
                   url(r'^index', views.index),
                   url(r'^query', views.query),
-
+                  url(r'^main', views.main),
                   # 接口
                   url(r'^login', views.login),
                   url(r'^cpu', views.cpu),

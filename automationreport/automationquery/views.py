@@ -15,6 +15,8 @@ def index(request):
 def query(request):
     return render(request, 'query.html')
 
+def main(request):
+    return render(request,'main.html')
 
 # token计算规则
 def token(token):
