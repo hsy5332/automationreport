@@ -14,7 +14,7 @@ function automationlogin() {
             loginresponsejson = JSON.parse(requestlogin.responseText);
             if (loginresponsejson != "") {
                 if (loginresponsejson.code == '200') {
-                    window.location.href = "query";
+                    window.location.href = "index";
                 }
                 else if (loginresponsejson.code == '100') {
                     document.getElementById("request_tooltip").innerText = "该用户账号已经被禁用，请联系管理员。";

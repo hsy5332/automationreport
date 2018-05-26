@@ -8,15 +8,30 @@ from django.http import HttpResponse
 
 
 #登录页面
+def loginpage(request):
+    return render(request, 'login.html')
+
+#查询页面
 def index(request):
     return render(request, 'index.html')
 
-#查询页面
-def query(request):
-    return render(request, 'query.html')
+def table(request):
+    return render(request,'table.html')
 
-def main(request):
-    return render(request,'main.html')
+# def chart(request):
+#     return render(request,'chart.html')
+#
+# def empty(request):
+#     return render(request,'empty.html')
+#
+# def form(request):
+#     return render(request,'form.html')
+#
+# def tabpanel(request):
+#     return render(request,'tab-panel.html')
+#
+# def uielements(request):
+#     return render(request,'ui-elements.html')
 
 # token计算规则
 def token(token):

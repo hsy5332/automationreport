@@ -6,9 +6,14 @@ from django.conf.urls.static import static
 
 urlpatterns = [
                   # 页面
+                  url(r'^loginpage', views.loginpage),
                   url(r'^index', views.index),
-                  url(r'^query', views.query),
-                  url(r'^main', views.main),
+                  url(r'^table', views.table),
+                  # url(r'^chart', views.chart),
+                  # url(r'^empty', views.empty),
+                  # url(r'^form', views.form),
+                  # url(r'^tabpanel', views.tabpanel),
+                  # url(r'^uielements', views.uielements),
                   # 接口
                   url(r'^login', views.login),
                   url(r'^cpu', views.cpu),
