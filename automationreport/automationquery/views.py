@@ -18,6 +18,8 @@ def index(request):
 def Appquery(request):
     return render(request,'Appquery.html')
 
+def initPage(request):
+    return render(request, 'initPage.html')
 # def chart(request):
 #     return render(request,'chart.html')
 #

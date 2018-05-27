@@ -9,6 +9,7 @@ urlpatterns = [
                   url(r'^loginpage', views.loginpage),
                   url(r'^index', views.index),
                   url(r'^Appquery', views.Appquery),
+                  url(r'^initPage',views.initPage),
                   # url(r'^chart', views.chart),
                   # url(r'^empty', views.empty),
                   # url(r'^form', views.form),
