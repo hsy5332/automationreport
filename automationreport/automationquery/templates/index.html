@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>自动化用例查询后台</title>
     <!-- Bootstrap Styles-->
     <link href="../../static/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><i class="fa fa-comments"></i> <strong>MASTER </strong></a>
+                <a class="navbar-brand" href="index.html"><i class="fa fa-comments"></i> <strong>Dashboard</strong></a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
@@ -245,7 +245,7 @@
                     </li>
 
                     <li>
-                        <a href="table.html"><i class="fa fa-table"></i> 查询</a>
+                        <a href="Appquery.html"><i class="fa fa-table"></i> 查询</a>
                     </li>
                 </ul>
 
@@ -260,12 +260,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Dashboard <small>Summary of your App</small>
+                            用例 <small>数据报表</small>
                         </h1>
 						<ol class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Library</a></li>
-  <li class="active">Data</li>
+  <li><a href="index.html">首页</a></li>
+  <li><a href="Appquery.html">查询</a></li>
+<!--  <li class="active">Data</li> -->
 </ol>
                     </div>
                 </div>
@@ -277,24 +277,25 @@
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="panel panel-primary text-center no-boder bg-color-green green">
                             <div class="panel-left pull-left green">
-                                <i class="fa fa-bar-chart-o fa-5x"></i>
-                                
+                                <!-- <i class="fa fa-bar-chart-o fa-5x"></i> -->
+                                <img src="../../static/images/database-icon.png" style="width:60px;height:57px; margin-top: 14px"/>
                             </div>
                             <div class="panel-right pull-right">
-								<h3>8,457</h3>
-                               <strong> Daily Visits</strong>
+								<h3 id="function-case-count"></h3>
+                               <strong> 执行用例总数</strong>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="panel panel-primary text-center no-boder bg-color-blue blue">
                               <div class="panel-left pull-left blue">
-                                <i class="fa fa-shopping-cart fa-5x"></i>
+                                <!-- <i class="fa fa-shopping-cart fa-5x"></i> -->
+                                  <img src="../../static/images/phone.png" style="width:60px;height:57px; margin-top: 14px"/>
 								</div>
                                 
                             <div class="panel-right pull-right">
-							<h3>52,160 </h3>
-                               <strong> Sales</strong>
+							<h3 id="app-case-count"></h3>
+                               <strong> 执行App 用例总数</strong>
 
                             </div>
                         </div>
@@ -302,12 +303,12 @@
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="panel panel-primary text-center no-boder bg-color-red red">
                             <div class="panel-left pull-left red">
-                                <i class="fa fa fa-comments fa-5x"></i>
-                               
+                                <!-- <i class="fa fa fa-comments fa-5x"></i> -->
+                                <img src="../../static/images/browser.png" style="width:60px;height:57px; margin-top: 14px"/>
                             </div>
                             <div class="panel-right pull-right">
-							 <h3>15,823 </h3>
-                               <strong> Comments </strong>
+							 <h3 id="web-case-count"></h3>
+                               <strong> 执行Web 用例总数 </strong>
 
                             </div>
                         </div>
@@ -315,8 +316,7 @@
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="panel panel-primary text-center no-boder bg-color-brown brown">
                             <div class="panel-left pull-left brown">
-                                <i class="fa fa-users fa-5x"></i>
-                                
+                                 <i class="fa fa-users fa-5x"></i>
                             </div>
                             <div class="panel-right pull-right">
 							<h3>36,752 </h3>
@@ -542,6 +542,7 @@
     </div>
     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
+    <script src="../../static/js/dataquery.js"></script>
     <!-- jQuery Js -->
     <script src="../../static/js/jquery-1.10.2.js"></script>
     <!-- Bootstrap Js -->

@@ -8,7 +8,7 @@ urlpatterns = [
                   # 页面
                   url(r'^loginpage', views.loginpage),
                   url(r'^index', views.index),
-                  url(r'^table', views.table),
+                  url(r'^Appquery', views.Appquery),
                   # url(r'^chart', views.chart),
                   # url(r'^empty', views.empty),
                   # url(r'^form', views.form),
@@ -22,4 +22,7 @@ urlpatterns = [
                   url(r'^interface', views.interface),
                   url(r'^functionapp', views.functionapp),
                   url(r'^functionweb', views.functionweb),
+                  url(r'^functioncount', views.functioncount),
+                  url(r'^appfunctioncount', views.appfunctioncount),
+                  url(r'^webfunctioncount', views.webfunctioncount),
               ] + static(settings.STATIC_URL, docment_root=settings.STATIC_ROOT)

@@ -15,8 +15,8 @@ def loginpage(request):
 def index(request):
     return render(request, 'index.html')
 
-def table(request):
-    return render(request,'table.html')
+def Appquery(request):
+    return render(request,'Appquery.html')
 
 # def chart(request):
 #     return render(request,'chart.html')
@@ -710,3 +710,64 @@ def functionweb(request):
     else:
         functionapp_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
         return HttpResponse(json.dumps(functionapp_error))
+
+#查询APP，WEB功能测试用例总数
+def functioncount(request):
+    if request.POST:
+        try:
+            if token(request.POST['token']):
+                app_functionappdatas = models.automation_function_app.objects.all()
+                web_functionappdatas = models.automation_function_web.objects.all()
+                functioncountdata = {
+                    'casecount' : len(app_functionappdatas)+len(web_functionappdatas)
+                }
+                return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functioncountdata}))
+            else:
+                functionappdatas_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+                return HttpResponse(json.dumps(functionappdatas_tokenerror))
+        except:
+            return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
+
+    else:
+        functionappdatas_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(functionappdatas_error))
+
+#查询APP 功能测试用例总数
+def appfunctioncount(request):
+    if request.POST:
+        try:
+            if token(request.POST['token']):
+                app_functionappdatas = models.automation_function_app.objects.all()
+                functioncountdata = {
+                    'casecount' : len(app_functionappdatas)
+                }
+                return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functioncountdata}))
+            else:
+                functionappdatas_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+                return HttpResponse(json.dumps(functionappdatas_tokenerror))
+        except:
+            return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
+
+    else:
+        functionappdatas_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(functionappdatas_error))
+
+#查询WEB 功能测试用例总数
+def webfunctioncount(request):
+    if request.POST:
+        try:
+            if token(request.POST['token']):
+                web_functionappdatas = models.automation_function_web.objects.all()
+                functioncountdata = {
+                    'casecount' : len(web_functionappdatas)
+                }
+                return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functioncountdata}))
+            else:
+                functionappdatas_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+                return HttpResponse(json.dumps(functionappdatas_tokenerror))
+        except:
+            return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
+
+    else:
+        functionappdatas_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(functionappdatas_error))
