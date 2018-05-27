@@ -1,4 +1,4 @@
-var token = String(Date.parse(new Date()) + 86400).substring(0, 10)
+var token = String(Date.parse(new Date()) + 86400).substring(0, 10);
 var requestdata = 'token=' + token;
 requestfunctiondatas = new XMLHttpRequest();
 requestfunctiondatas.open("POST", "/automationquery/functioncount", true);

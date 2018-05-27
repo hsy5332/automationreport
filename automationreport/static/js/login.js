@@ -3,7 +3,7 @@ function automationlogin() {
     var password = String(document.getElementById("password").value);
     var token = String(Date.parse(new Date()) + 86400).substring(0, 10)
     var requestlogin;
-    var requestdata = 'username=' + usernmae + '&password=' + password + '&token=' + token
+    var requestdata = 'username=' + usernmae + '&password=' + password + '&token=' + token;
     requestlogin = new XMLHttpRequest();
     requestlogin.open("POST", "/automationquery/login", true);
     requestlogin.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
