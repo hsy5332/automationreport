@@ -295,12 +295,13 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <input id="caseid"  type="text" class="form-control"
+                                    <input id="caseid" type="text" class="form-control"
                                            style="height:30px;margin-top: -30px;margin-left: 490px;position: relative">
                                     <input id="eventid" type="text" class="form-control"
                                            style="height:30px;margin-top: -30px;margin-left: 726px;position: relative">
                                     <button type="button"
-                                            style="margin-left: 918px;margin-top: -31px;width: 54px; position: absolute;-webkit-border-radius: 13%;-moz-border-radius: 13%;border-radius: 13%;" onclick="queryappcase()">
+                                            style="margin-left: 918px;margin-top: -31px;width: 54px; position: absolute;-webkit-border-radius: 13%;-moz-border-radius: 13%;border-radius: 13%;"
+                                            id="buttonquery" onclick="queryappcase(buttonquery)">
                                         查询
                                     </button>
                                 </div>
@@ -312,21 +313,39 @@
                                            id="dataTables-example">
                                         <thead>
                                         <tr>
-                                            <th style="width: 72px;height: 38px;text-align: center;font-size: 11px;">序号</th>
-                                            <th style="width: 65px;height: 38px;text-align: center;font-size: 11px;">用例编号</th>
+                                            <th style="width: 72px;height: 38px;text-align: center;font-size: 11px;">
+                                                序号
+                                            </th>
+                                            <th style="width: 65px;height: 38px;text-align: center;font-size: 11px;">
+                                                用例编号
+                                            </th>
                                             <th style="height: 38px;text-align: center;font-size: 11px;">设备信息</th>
-                                            <th style="width: 89px;height: 38px;text-align: center;font-size: 11px;">设备是否执行</th>
-                                            <th style="width: 90px;height: 38px;text-align: center;font-size: 11px;">运行用例时间</th>
-                                            <th style="width: 72px;height: 38px;text-align: center;font-size: 11px;">连接端口</th>
-                                            <th style="width: 90px;height: 38px;text-align: center;font-size: 11px;">用例执行状态</th>
+                                            <th style="width: 89px;height: 38px;text-align: center;font-size: 11px;">
+                                                设备是否执行
+                                            </th>
+                                            <th style="width: 90px;height: 38px;text-align: center;font-size: 11px;">
+                                                运行用例时间
+                                            </th>
+                                            <th style="width: 72px;height: 38px;text-align: center;font-size: 11px;">
+                                                连接端口
+                                            </th>
+                                            <th style="width: 90px;height: 38px;text-align: center;font-size: 11px;">
+                                                用例执行状态
+                                            </th>
                                             <!--<th>等待时间</th>-->
                                             <!--<th>操作类型</th>-->
                                             <!--<th>元素</th>-->
                                             <!--<th>参数</th>-->
-                                            <th style="width: 158px;height: 38px;text-align: center;font-size: 11px;">用例执行结果</th>
-                                            <th style="width: 127px;height: 38px;text-align: center;font-size: 11px;">事件编号</th>
+                                            <th style="width: 158px;height: 38px;text-align: center;font-size: 11px;">
+                                                用例执行结果
+                                            </th>
+                                            <th style="width: 127px;height: 38px;text-align: center;font-size: 11px;">
+                                                事件编号
+                                            </th>
                                             <!--<th>步骤描述</th>-->
-                                            <th style="width: 149px;height: 38px;text-align: center;font-size: 11px;">创建时间</th>
+                                            <th style="width: 149px;height: 38px;text-align: center;font-size: 11px;">
+                                                创建时间
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody id="datapaging">
@@ -337,13 +356,20 @@
                                         <div id="barcon1" class="barcon1"></div>
                                         <div id="barcon2" class="barcon2">
                                             <ul>
+                                                <li><select id="jumpWhere"
+                                                            style="font-size: 11px;font-weight: normal;"
+                                                            onchange="jumpWhereChange()">
+                                                    <option value="10" id="onenumber">
+                                                        10
+                                                    </option>
+                                                    <option value="20" id="twonumber">20</option>
+                                                    <option value="50" id="threenumber">50</option>
+                                                </select></li>
                                                 <li><a href="###" id="firstPage">首页</a></li>
                                                 <li><a href="###" id="prePage">上一页</a></li>
                                                 <li><a href="###" id="nextPage">下一页</a></li>
                                                 <li><a href="###" id="lastPage">尾页</a></li>
-                                                <li><select id="jumpWhere">
-                                                </select></li>
-                                                <li><a href="###" id="jumpPage" onclick="jumpPage()">跳转</a></li>
+                                                <!--<li><a href="###" id="jumpPage" onclick="jumpPage()">跳转</a></li>-->
                                             </ul>
                                         </div>
                                     </div>

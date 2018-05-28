@@ -1,4 +1,5 @@
-function queryappcase() {
+// 查询数据
+function queryappcase(source) {
     var token = String(Date.parse(new Date()) + 86400).substring(0, 10);
     var startdate = document.getElementById("starttime").value.replace(/[^0-9]/ig, "");
     if (startdate.length > 6) {
@@ -19,12 +20,18 @@ function queryappcase() {
         appcasecount.send(senddata);
         appcasecount.onreadystatechange = function () {
             if (appcasecount.status == 200 & appcasecount.readyState == 4) {
-                if (JSON.parse(appcasecount.responseText).data.length > 0) {
+                requestdatalength = JSON.parse(appcasecount.responseText).data.length; // 获取接口返回的数据长度
+                if (requestdatalength > 0) {
                     if (document.getElementsByClassName('listdata').length > 0) {
                         $('.listdata').remove();
                     }
-                    var traversedata = [];
-                    for (var i = 0; i <= (JSON.parse(appcasecount.responseText).data.length) - 1; i++) {
+                    var traversedata = []; //新增一个数组，把接口数据存入
+                    var displaylist = [];
+                    displaynumber = document.getElementById('jumpWhere').value;
+                    if (displaynumber > requestdatalength) {
+                        displaynumber = requestdatalength;
+                    }
+                    for (var i = 0; i <= requestdatalength - 1; i++) {
                         var number = JSON.parse(appcasecount.responseText).data[i].id;
                         var caseid = JSON.parse(appcasecount.responseText).data[i].caseid;
                         var devicesinfos = JSON.parse(appcasecount.responseText).data[i].devicesinfos;
@@ -50,10 +57,14 @@ function queryappcase() {
                             }
                         }
                     }
-                    draw(traversedata);
+                    for (var y = 0; y < displaynumber; y++) {
+                        displaylist[y] = traversedata[y]; // 把数据放入新的数组，在HTML中创建数据
+                    }
+                    // 判断当前选择 每页展示的数据
+                    draw(displaylist);
 
-                    function draw(traversedata) {
-                        $.each(traversedata, function (i, item) {
+                    function draw(displaylist) {
+                        $.each(displaylist, function (i, item) {
                             var html = '<tr class="listdata">';
                             html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                             html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
@@ -76,12 +87,20 @@ function queryappcase() {
         }
     }
     else {
-        if(document.getElementsByClassName('listdata').length > 0){
+        if (document.getElementsByClassName('listdata').length > 0) {
             $('.listdata').remove();
         }
         else {
-            window.alert("请输入用例编号！")
+            if (source.id == "buttonquery") {
+                window.alert("请输入用例编号！")
+            }
         }
     }
 
+}
+
+// 获取当前 数据选中的行数
+function jumpWhereChange() {
+    var displaynumber = document.getElementById('jumpWhere').options[jumpWhere.selectedIndex].value;
+    queryappcase('jumpWhere');
 }
