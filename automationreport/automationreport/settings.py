@@ -80,15 +80,15 @@ DATABASES = {
     }
 }
 '''
-# 测试环境
+# 本地环境
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'automation_db',
-        'USER': 'huangshunyao',
-        'PASSWORD': "Hsy5332#",
-        'HOST': "192.168.1.9",
-        'PORT': '33006',
+        'USER': 'root',
+        'PASSWORD': "123",
+        'HOST': "localhost",
+        'PORT': '3306',
     }
 }
 
@@ -102,6 +102,18 @@ DATABASES = {
         'PASSWORD': "Hsy5332#",
         'HOST': "steel.iask.in",
         'PORT': '19008',
+    }
+}
+
+# 测试环境
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'automation_db',
+        'USER': 'huangshunyao',
+        'PASSWORD': "Hsy5332#",
+        'HOST': "192.168.1.9",
+        'PORT': '33006',
     }
 }
 '''
