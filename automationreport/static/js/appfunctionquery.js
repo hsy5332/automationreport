@@ -57,36 +57,70 @@ function queryappcase(source) {
                             }
                         }
                     }
+                    // 判断当前选择 每页展示的数据
                     if (source.id == "lastPage") {
                         if (requestdatalength > displaynumber) {
+                            if (requestdatalength % displaynumber > 0) {
+                                pagecounts = Math.ceil(requestdatalength / displaynumber); //小数上进一位
+                            }
+                            else {
+                                pagecounts = requestdatalength / displaynumber;
+                            }
+                            // 判断获取的数据，是否刚好等于页数整数的倍数
+                            displaylist = [];
+                            lastdata = requestdatalength - ((pagecounts - 1) * displaynumber); //最后一页要显示的数据数目
+                            for (var lastdatacount = 0; lastdatacount < lastdata; lastdatacount++) {
+                                displaylist[lastdatacount] = traversedata[Math.floor(requestdatalength / displaynumber) * displaynumber + lastdatacount]; //取出最后一页未显示的数据
+                            }
+                            draw(displaylist);
 
-
+                            function draw(displaylist) {
+                                $.each(displaylist, function (i, item) {
+                                    var html = '<tr class="listdata">';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
+                                    html += '</tr>';
+                                    $('#datapaging').append(html);
+                                });
+                            }
+                        }
+                        else {
+                            window.alert("最后一页没有数据了,自动跳转到首页");
+                            queryappcase(firstPage)
                         }
                     }
                     else {
+                        displaylist = []; // 先清空整个数组
                         for (var y = 0; y < displaynumber; y++) {
                             displaylist[y] = traversedata[y]; // 把数据放入新的数组，在HTML中创建数据
                         }
-                    }
-                    // 判断当前选择 每页展示的数据
-                    draw(displaylist);
+                        draw(displaylist);
 
-                    function draw(displaylist) {
-                        $.each(displaylist, function (i, item) {
-                            var html = '<tr class="listdata">';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
-                            html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
-                            html += '</tr>';
-                            $('#datapaging').append(html);
-                        });
+                        function draw(displaylist) {
+                            $.each(displaylist, function (i, item) {
+                                var html = '<tr class="listdata">';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
+                                html += '</tr>';
+                                $('#datapaging').append(html);
+                            });
+                        }
                     }
                 } else {
                     window.alert("没有获取到任何数据");
