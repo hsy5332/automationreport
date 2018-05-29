@@ -57,8 +57,16 @@ function queryappcase(source) {
                             }
                         }
                     }
-                    for (var y = 0; y < displaynumber; y++) {
-                        displaylist[y] = traversedata[y]; // 把数据放入新的数组，在HTML中创建数据
+                    if (source.id == "lastPage") {
+                        if (requestdatalength > displaynumber) {
+
+
+                        }
+                    }
+                    else {
+                        for (var y = 0; y < displaynumber; y++) {
+                            displaylist[y] = traversedata[y]; // 把数据放入新的数组，在HTML中创建数据
+                        }
                     }
                     // 判断当前选择 每页展示的数据
                     draw(displaylist);
@@ -104,3 +112,4 @@ function jumpWhereChange() {
     var displaynumber = document.getElementById('jumpWhere').options[jumpWhere.selectedIndex].value;
     queryappcase('jumpWhere');
 }
+
