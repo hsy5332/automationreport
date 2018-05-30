@@ -7,19 +7,37 @@ from automationquery import models
 from django.http import HttpResponse
 
 
-#登录页面
+# 登录页面
 def loginpage(request):
     return render(request, 'login.html')
 
-#查询页面
+
+# 查询页面
 def index(request):
     return render(request, 'index.html')
 
-def Appquery(request):
-    return render(request,'Appquery.html')
 
-def initPage(request):
-    return render(request, 'initPage.html')
+def appQuery(request):
+    return render(request, 'appQuery.html')
+
+
+def webFunctionQuery(request):
+    return render(request, 'webFunctionQuery.html')
+
+
+def interfaceQuery(request):
+    return render(request, 'interfaceQuery.html')
+
+
+def cpuQuery(request):
+    return render(request, 'cpuQuery.html')
+
+
+def launchTime(request):
+    return render(request, 'launchTime.html')
+
+def memoryQuery(request):
+    return render(request, 'memoryQuery.html')
 # def chart(request):
 #     return render(request,'chart.html')
 #
@@ -713,7 +731,8 @@ def functionweb(request):
         functionapp_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
         return HttpResponse(json.dumps(functionapp_error))
 
-#查询APP，WEB功能测试用例总数
+
+# 查询APP，WEB功能测试用例总数
 def functioncount(request):
     if request.POST:
         try:
@@ -721,7 +740,7 @@ def functioncount(request):
                 app_functionappdatas = models.automation_function_app.objects.all()
                 web_functionappdatas = models.automation_function_web.objects.all()
                 functioncountdata = {
-                    'casecount' : len(app_functionappdatas)+len(web_functionappdatas)
+                    'casecount': len(app_functionappdatas) + len(web_functionappdatas)
                 }
                 return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functioncountdata}))
             else:
@@ -734,14 +753,15 @@ def functioncount(request):
         functionappdatas_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
         return HttpResponse(json.dumps(functionappdatas_error))
 
-#查询APP 功能测试用例总数
+
+# 查询APP 功能测试用例总数
 def appfunctioncount(request):
     if request.POST:
         try:
             if token(request.POST['token']):
                 app_functionappdatas = models.automation_function_app.objects.all()
                 functioncountdata = {
-                    'casecount' : len(app_functionappdatas)
+                    'casecount': len(app_functionappdatas)
                 }
                 return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functioncountdata}))
             else:
@@ -754,14 +774,15 @@ def appfunctioncount(request):
         functionappdatas_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
         return HttpResponse(json.dumps(functionappdatas_error))
 
-#查询WEB 功能测试用例总数
+
+# 查询WEB 功能测试用例总数
 def webfunctioncount(request):
     if request.POST:
         try:
             if token(request.POST['token']):
                 web_functionappdatas = models.automation_function_web.objects.all()
                 functioncountdata = {
-                    'casecount' : len(web_functionappdatas)
+                    'casecount': len(web_functionappdatas)
                 }
                 return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functioncountdata}))
             else:

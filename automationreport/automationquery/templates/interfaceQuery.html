@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title></title>
+    <!-- Bootstrap Styles-->
+    <link href="../../static/css/Appquery.css" rel="stylesheet"/>
+    <link href="../../static/css/bootstrap.css" rel="stylesheet"/>
+    <!-- FontAwesome Styles-->
+    <link href="../../static/css/font-awesome.css" rel="stylesheet"/>
+    <!-- Morris Chart Styles-->
+    <!-- Custom Styles-->
+    <link href="../../static/css/custom-styles.css" rel="stylesheet"/>
+    <!-- Google Fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <!-- TABLE STYLES-->
+    <link href="../../static/js/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"><i class="fa fa-comments"></i> <strong>MASTER </strong></a>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="loginpage.html"><i class="fa fa-sign-out fa-fw"></i> 退出登录</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+
+                <li>
+                    <a href="index.html"><i class="fa fa-dashboard"></i> 首页</a>
+                </li>
+
+                <li>
+                    <a href="appQuery.html"><i class="fa fa-table"></i> 功能用例查询</a>
+                </li>
+
+                <li>
+                    <a href="webFunctionQuery.html"><i class="fa fa-desktop"></i> web用例查询</a>
+                </li>
+
+                <li>
+                    <a href="interfaceQuery.html" class="active-menu"><i class="fa fa-qrcode"></i> 接口用例查询</a>
+                </li>
+
+                <li>
+                    <a href="cpuQuery.html"><i class="fa fa-sitemap"></i> Cpu占有率查询</a>
+                </li>
+
+                <li>
+                    <a href="launchTime.html"><i class="fa fa-bar-chart-o"></i> App启动时间查询</a>
+                </li>
+
+                <li>
+                    <a href="memoryQuery.html"><i class="fa fa-fw fa-file"></i> App内存占有率查询</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">
+                        Tables Page
+                        <small>Responsive tables</small>
+                    </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Advanced Tables
+
+                            <span style="font-size: 10px;">&nbsp;&nbsp;&nbsp;开始时间：</span><span
+                                style="position: relative;left: 186px;font-size: 10px;">结束时间：</span>
+                            <span style="font-size: 10px;margin-left: 352px;">&nbsp;&nbsp;&nbsp;用例编号：</span><span
+                                style="position: relative;left: 179px;font-size: 10px;">事件编号：</span>
+                            <div class="col-md-5"
+                                 style="width:200px;position: relative;float:inherit;top: -5px;left: 182px;">
+                                <div class="input-group date datepicker" style="margin-top: -20px">
+                                    <input type="text" class="form-control" id="starttime" style="height:30px;">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th "></span>
+                                    </div>
+                                </div>
+                                <div class="input-group date datepicker" style="left: 248px;margin-top: -29px;">
+                                    <input type="text" class="form-control" id="endtime" style="height:30px;">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th "></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input id="caseid" type="text" class="form-control"
+                                           style="height:30px;margin-top: -30px;margin-left: 490px;position: relative">
+                                    <input id="eventid" type="text" class="form-control"
+                                           style="height:30px;margin-top: -30px;margin-left: 726px;position: relative">
+                                    <button type="button"
+                                            style="margin-left: 918px;margin-top: -31px;width: 54px; position: absolute;-webkit-border-radius: 13%;-moz-border-radius: 13%;border-radius: 13%;"
+                                            id="buttonquery" onclick="queryappcase(buttonquery)">
+                                        查询
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover"
+                                           style="font-weight:normal;font-size: 14px;"
+                                           id="dataTables-example">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 72px;height: 38px;text-align: center;font-size: 11px;">
+                                                序号
+                                            </th>
+                                            <th style="width: 65px;height: 38px;text-align: center;font-size: 11px;">
+                                                用例编号
+                                            </th>
+                                            <th style="height: 38px;text-align: center;font-size: 11px;">接口</th>
+                                            <th style="width: 89px;height: 38px;text-align: center;font-size: 11px;">
+                                                设备是否执行
+                                            </th>
+                                            <th style="width: 90px;height: 38px;text-align: center;font-size: 11px;">
+                                                运行用例时间
+                                            </th>
+                                            <th style="width: 72px;height: 38px;text-align: center;font-size: 11px;">
+                                                连接端口
+                                            </th>
+                                            <th style="width: 90px;height: 38px;text-align: center;font-size: 11px;">
+                                                用例执行状态
+                                            </th>
+                                            <!--<th>等待时间</th>-->
+                                            <!--<th>操作类型</th>-->
+                                            <!--<th>元素</th>-->
+                                            <!--<th>参数</th>-->
+                                            <th style="width: 158px;height: 38px;text-align: center;font-size: 11px;">
+                                                用例执行结果
+                                            </th>
+                                            <th style="width: 127px;height: 38px;text-align: center;font-size: 11px;">
+                                                事件编号
+                                            </th>
+                                            <!--<th>步骤描述</th>-->
+                                            <th style="width: 149px;height: 38px;text-align: center;font-size: 11px;">
+                                                创建时间
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="datapaging">
+
+                                        </tbody>
+                                    </table>
+                                    <div id="barcon" class="barcon">
+                                        <div id="barcon1" class="barcon1"></div>
+                                        <div id="barcon2" class="barcon2">
+                                            <ul style="font-size: 11px;font-weight: normal;">
+                                                每页显示
+                                                <li><select id="jumpWhere"
+                                                            onchange="jumpWhereChange(jumpWhere)">
+                                                    <option value="10" id="onenumber">
+                                                        10
+                                                    </option>
+                                                    <option value="20" id="twonumber">20</option>
+                                                    <option value="50" id="threenumber">50</option>
+                                                </select></li>
+                                                条<span id="totalcounts"></span><span id="currentpage"></span>
+                                                <li><a href="javascript:void(0)" id="firstPage"
+                                                       onclick="queryappcase(firstPage)">首页</a></li>
+                                                <li><a href="###" id="prePage" onclick="queryappcase(prePage)">上一页</a>
+                                                </li>
+                                                <li><a href="###" id="nextPage" onclick="queryappcase(nextPage)">下一页</a>
+                                                </li>
+                                                <li><a href="javascript:void(0)" id="lastPage"
+                                                       onclick="queryappcase(lastPage)">尾页</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../static/js/jquery-1.10.2.js"></script>
+<script src="../../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../static/js/appfunctionquery.js" charset="UTF-8"></script>
+<script>window.jQuery || document.write('<script src="../../static/js/jquery-1.11.0.min.js"><\/script>')</script>
+<script type="text/javascript" src="./../static/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="./../static/js/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.datepicker').datepicker({
+            language: 'zh-CN'
+        });
+    })
+</script>
+</body>
+</html>
