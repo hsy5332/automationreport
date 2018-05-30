@@ -355,20 +355,25 @@
                                     <div id="barcon" class="barcon">
                                         <div id="barcon1" class="barcon1"></div>
                                         <div id="barcon2" class="barcon2">
-                                            <ul>
+                                            <ul style="font-size: 11px;font-weight: normal;">
+                                                每页显示
                                                 <li><select id="jumpWhere"
-                                                            style="font-size: 11px;font-weight: normal;"
                                                             onchange="jumpWhereChange(jumpWhere)">
-                                                    <option value="5" id="onenumber">
-                                                        5
+                                                    <option value="10" id="onenumber">
+                                                        10
                                                     </option>
                                                     <option value="20" id="twonumber">20</option>
                                                     <option value="50" id="threenumber">50</option>
                                                 </select></li>
-                                                <li><a href="javascript:void(0)" id="firstPage" onclick="queryappcase(firstPage)">首页</a></li>
-                                                <li><a href="###" id="prePage">上一页</a></li>
-                                                <li><a href="###" id="nextPage">下一页</a></li>
-                                                <li><a href="javascript:void(0)" id="lastPage" onclick="queryappcase(lastPage)">尾页</a></li>
+                                                条<span id="totalcounts"></span><span id="currentpage"></span>
+                                                <li><a href="javascript:void(0)" id="firstPage"
+                                                       onclick="queryappcase(firstPage)">首页</a></li>
+                                                <li><a href="###" id="prePage" onclick="queryappcase(prePage)">上一页</a>
+                                                </li>
+                                                <li><a href="###" id="nextPage" onclick="queryappcase(nextPage)">下一页</a>
+                                                </li>
+                                                <li><a href="javascript:void(0)" id="lastPage"
+                                                       onclick="queryappcase(lastPage)">尾页</a></li>
                                                 <!--<li><a href="###" id="jumpPage" onclick="jumpPage()">跳转</a></li>-->
                                             </ul>
                                         </div>

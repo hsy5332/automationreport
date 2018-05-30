@@ -1,5 +1,9 @@
+currentpage = 1; //当前显示在第几页
 // 查询数据
 function queryappcase(source) {
+    if (source.id == "jumpWhere" || source.id == "buttonquery" || source.id == "firstPage") {
+        currentpage = 1;
+    }
     var token = String(Date.parse(new Date()) + 86400).substring(0, 10);
     var startdate = document.getElementById("starttime").value.replace(/[^0-9]/ig, "");
     if (startdate.length > 6) {
@@ -31,6 +35,14 @@ function queryappcase(source) {
                     if (displaynumber > requestdatalength) {
                         displaynumber = requestdatalength;
                     }
+                    //totalCount 总页数
+                    if (requestdatalength % displaynumber > 0) {
+                        totalCount = Math.ceil(requestdatalength / displaynumber); //小数上进一位
+                    }
+                    else {
+                        totalCount = requestdatalength / displaynumber;
+                    }
+                    document.getElementById('totalcounts').innerHTML = ' 共 ' + totalCount + ' 页';//页面显示共多少页
                     for (var i = 0; i <= requestdatalength - 1; i++) {
                         var number = JSON.parse(appcasecount.responseText).data[i].id;
                         var caseid = JSON.parse(appcasecount.responseText).data[i].caseid;
@@ -66,6 +78,7 @@ function queryappcase(source) {
                             else {
                                 pagecounts = requestdatalength / displaynumber;
                             }
+                            currentpage = pagecounts;//当前在最后一页则是最后一页
                             // 判断获取的数据，是否刚好等于页数整数的倍数
                             displaylist = [];
                             lastdata = requestdatalength - ((pagecounts - 1) * displaynumber); //最后一页要显示的数据数目
@@ -97,6 +110,85 @@ function queryappcase(source) {
                             queryappcase(firstPage)
                         }
                     }
+                    else if (source.id == "nextPage") {
+                        console.log(currentpage)
+                        displaylist = []; // 先清空整个数组
+                        if (currentpage < totalCount) {
+                            startnextpagelen = currentpage * displaynumber;
+                            endnextpagelen = ((currentpage + 1) * displaynumber);
+                            contrastcount = endnextpagelen - startnextpagelen;
+                            for (var nextcount = 0; nextcount < contrastcount; nextcount++) {
+                                if (startnextpagelen < traversedata.length) {
+                                    displaylist[nextcount] = traversedata[startnextpagelen]; // 把数据放入新的数组，在HTML中创建数据
+                                    startnextpagelen = startnextpagelen + 1;
+                                }
+                            }
+                            draw(displaylist);
+
+                            function draw(displaylist) {
+                                $.each(displaylist, function (i, item) {
+                                    var html = '<tr class="listdata">';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
+                                    html += '</tr>';
+                                    $('#datapaging').append(html);
+                                });
+                            }
+
+                            currentpage = currentpage + 1;
+                        }
+                        else {
+                            window.alert("这已经是最后一页了,自动跳转到首页");
+                            currentpage = 1;
+                            queryappcase(firstPage)
+                        }
+                    }
+                    else if (source.id == "prePage") {
+                        if (currentpage > 1) {
+                            startnextpagelen = (currentpage - 2) * displaynumber;
+                            endnextpagelen = (currentpage - 1) * displaynumber;
+
+                            contrastcount = endnextpagelen - startnextpagelen; //上一页要显示的数据数量
+                            for (var nextcount = 0; nextcount < contrastcount; nextcount++) {
+                                displaylist[nextcount] = traversedata[startnextpagelen]; // 把数据放入新的数组，在HTML中创建数据
+                                startnextpagelen = startnextpagelen + 1;
+                            }
+                            draw(displaylist);
+
+                            function draw(displaylist) {
+                                $.each(displaylist, function (i, item) {
+                                    var html = '<tr class="listdata">';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
+                                    html += '</tr>';
+                                    $('#datapaging').append(html);
+                                });
+                            }
+
+                            currentpage = currentpage - 1;
+
+                        } else {
+                            currentpage = 1;
+                            queryappcase(firstPage)
+                        }
+
+                    }
                     else {
                         displaylist = []; // 先清空整个数组
                         for (var y = 0; y < displaynumber; y++) {
@@ -125,7 +217,10 @@ function queryappcase(source) {
                 } else {
                     window.alert("没有获取到任何数据");
                 }
+                console.log(currentpage)
+                document.getElementById('currentpage').innerHTML = '，第 ' + currentpage + ' 页';//页面显示当前页面
             }
+
         }
     }
     else {
