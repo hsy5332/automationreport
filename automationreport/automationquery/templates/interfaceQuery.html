@@ -14,8 +14,6 @@
     <link href="../../static/css/custom-styles.css" rel="stylesheet"/>
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
-    <!-- TABLE STYLES-->
-    <link href="../../static/js/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
 </head>
 <body>
 <div id="wrapper">
@@ -84,8 +82,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="page-header">
-                        Tables Page
-                        <small>Responsive tables</small>
+                        接口测试
+                        <small>自动化用例</small>
                     </h1>
                 </div>
             </div>
@@ -94,8 +92,7 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Advanced Tables
-
+                            <span style="position:relative;margin-left: 26px;">用例查询条件</span>
                             <span style="font-size: 10px;">&nbsp;&nbsp;&nbsp;开始时间：</span><span
                                 style="position: relative;left: 186px;font-size: 10px;">结束时间：</span>
                             <span style="font-size: 10px;margin-left: 352px;">&nbsp;&nbsp;&nbsp;用例编号：</span><span
@@ -139,26 +136,24 @@
                                             <th style="width: 65px;height: 38px;text-align: center;font-size: 11px;">
                                                 用例编号
                                             </th>
-                                            <th style="height: 38px;text-align: center;font-size: 11px;">接口</th>
-                                            <th style="width: 89px;height: 38px;text-align: center;font-size: 11px;">
-                                                设备是否执行
+                                            <th style="height: 38px;text-align: center;font-size: 11px;">接口地址</th>
+                                            <th style="width: 70px;height: 38px;text-align: center;font-size: 11px;">
+                                                请求方式
                                             </th>
                                             <th style="width: 90px;height: 38px;text-align: center;font-size: 11px;">
-                                                运行用例时间
+                                                请求参数
                                             </th>
-                                            <th style="width: 72px;height: 38px;text-align: center;font-size: 11px;">
-                                                连接端口
+                                            <th style="width: 274px;height: 38px;text-align: center;font-size: 11px;">
+                                                返回数据
                                             </th>
                                             <th style="width: 90px;height: 38px;text-align: center;font-size: 11px;">
-                                                用例执行状态
+                                                备注
                                             </th>
                                             <!--<th>等待时间</th>-->
                                             <!--<th>操作类型</th>-->
                                             <!--<th>元素</th>-->
                                             <!--<th>参数</th>-->
-                                            <th style="width: 158px;height: 38px;text-align: center;font-size: 11px;">
-                                                用例执行结果
-                                            </th>
+
                                             <th style="width: 127px;height: 38px;text-align: center;font-size: 11px;">
                                                 事件编号
                                             </th>
@@ -208,7 +203,7 @@
 </div>
 <script src="../../static/js/jquery-1.10.2.js"></script>
 <script src="../../static/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../../static/js/appfunctionquery.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../../static/js/interfacefunction.js" charset="UTF-8"></script>
 <script>window.jQuery || document.write('<script src="../../static/js/jquery-1.11.0.min.js"><\/script>')</script>
 <script type="text/javascript" src="./../static/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="./../static/js/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>

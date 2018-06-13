@@ -251,7 +251,7 @@ def launchapp(request):
                         return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": launchappdatalist}))
                 else:
                     if request.POST['eventid'] != "":
-                        launchappdatas = models.automation_cpu_app.objects.filter(caseid=request.POST['caseid'])
+                        launchappdatas = models.automation_launch_app.objects.filter(caseid=request.POST['caseid'])
                         launchappdatalist = []
                         for launchappdata in range(0, len(launchappdatas)):
                             if request.POST['eventid'] in launchappdatas[
@@ -270,7 +270,7 @@ def launchapp(request):
                                 launchappdatalist.append(cpu_querydata)
                         return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": launchappdatalist}))
                     else:
-                        launchappdatas = models.automation_cpu_app.objects.filter(caseid=request.POST['caseid'])
+                        launchappdatas = models.automation_launch_app.objects.filter(caseid=request.POST['caseid'])
                         launchappdatalist = []
                         for launchappdata in range(0, len(launchappdatas)):
                             cpu_querydata = {

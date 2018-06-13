@@ -19,7 +19,7 @@ function queryappcase(source) {
         var appcasecount;
         senddata = 'startdate=' + startdate + '&enddate=' + enddate + '&token=' + token + '&caseid=' + caseid + '&eventid=' + eventid
         appcasecount = new XMLHttpRequest();
-        appcasecount.open("POST", "/automationquery/functionapp", true); // 接口地址
+        appcasecount.open("POST", "/automationquery/launchapp", true); // 接口地址
         appcasecount.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         appcasecount.send(senddata);
         appcasecount.onreadystatechange = function () {
@@ -46,28 +46,25 @@ function queryappcase(source) {
                     for (var i = 0; i <= requestdatalength - 1; i++) {
                         var number = JSON.parse(appcasecount.responseText).data[i].id;
                         var caseid = JSON.parse(appcasecount.responseText).data[i].caseid;
-                        var devicesinfos = JSON.parse(appcasecount.responseText).data[i].devicesinfos;
-                        var devicesexecute = JSON.parse(appcasecount.responseText).data[i].devicesexecute;
-                        var runcasetime = JSON.parse(appcasecount.responseText).data[i].runcasetime;
-                        var appiumport = JSON.parse(appcasecount.responseText).data[i].appiumport;
-                        var caseexecute = JSON.parse(appcasecount.responseText).data[i].caseexecute;
-                        var casereport = JSON.parse(appcasecount.responseText).data[i].casereport;
+                        var launchtime = JSON.parse(appcasecount.responseText).data[i].launchtime;
+                        var launchtype = JSON.parse(appcasecount.responseText).data[i].launchtype;
+                        var starttime = JSON.parse(appcasecount.responseText).data[i].starttime;
+                        var endtime = JSON.parse(appcasecount.responseText).data[i].endtime;
                         var eventid = JSON.parse(appcasecount.responseText).data[i].eventid;
                         var createdtime = JSON.parse(appcasecount.responseText).data[i].createdtime;
                         traversedata[i] = {
                             'data': {
                                 'id': number,
                                 'caseid': caseid,
-                                'devicesinfos': devicesinfos,
-                                'devicesexecute': devicesexecute,
-                                'runcasetime': runcasetime,
-                                'appiumport': appiumport,
-                                'caseexecute': caseexecute,
-                                'casereport': casereport,
+                                'launchtime': launchtime,
+                                'launchtype' : launchtype,
+                                'starttime' : starttime,
+                                'endtime': endtime,
                                 'eventid': eventid,
                                 'createdtime': createdtime
                             }
                         }
+
                     }
                     // 判断当前选择 每页展示的数据
                     if (source.id == "lastPage") {
@@ -92,12 +89,10 @@ function queryappcase(source) {
                                     var html = '<tr class="listdata">';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.launchtime + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.launchtype + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.starttime + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.endtime + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
                                     html += '</tr>';
@@ -130,12 +125,10 @@ function queryappcase(source) {
                                     var html = '<tr class="listdata">';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.launchtime + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.launchtype + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.starttime + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.endtime + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
                                     html += '</tr>';
@@ -168,12 +161,10 @@ function queryappcase(source) {
                                     var html = '<tr class="listdata">';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.launchtime + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.launchtype + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.starttime + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.endtime + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
                                     html += '</tr>';
@@ -201,13 +192,11 @@ function queryappcase(source) {
                                 var html = '<tr class="listdata">';
                                 html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                                 html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesexecute + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.launchtime + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.launchtype + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.starttime + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.endtime + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
                                 html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
                                 html += '</tr>';
                                 $('#datapaging').append(html);
