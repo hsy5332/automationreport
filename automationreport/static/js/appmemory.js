@@ -19,7 +19,7 @@ function queryappcase(source) {
         var appcasecount;
         senddata = 'startdate=' + startdate + '&enddate=' + enddate + '&token=' + token + '&caseid=' + caseid + '&eventid=' + eventid
         appcasecount = new XMLHttpRequest();
-        appcasecount.open("POST", "/automationquery/functionapp", true); // 接口地址
+        appcasecount.open("POST", "/automationquery/menapp", true); // 接口地址
         appcasecount.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         appcasecount.send(senddata);
         appcasecount.onreadystatechange = function () {
@@ -46,34 +46,25 @@ function queryappcase(source) {
                     for (var i = 0; i <= requestdatalength - 1; i++) {
                         var number = JSON.parse(appcasecount.responseText).data[i].id;
                         var caseid = JSON.parse(appcasecount.responseText).data[i].caseid;
-                        var devicesinfos = JSON.parse(appcasecount.responseText).data[i].devicesinfos;
-                        var operatetype = JSON.parse(appcasecount.responseText).data[i].operatetype;
-                        var elementcontent = JSON.parse(appcasecount.responseText).data[i].element;
-                        var parameter = JSON.parse(appcasecount.responseText).data[i].parameter;
-                        var waittime = JSON.parse(appcasecount.responseText).data[i].waittime;
-                        var runcasetime = JSON.parse(appcasecount.responseText).data[i].runcasetime;
-                        var appiumport = JSON.parse(appcasecount.responseText).data[i].appiumport;
-                        var caseexecute = JSON.parse(appcasecount.responseText).data[i].caseexecute;
-                        var casereport = JSON.parse(appcasecount.responseText).data[i].casereport;
+                        var memorysize = JSON.parse(appcasecount.responseText).data[i].memorysize;
+                        var monkeyscript = JSON.parse(appcasecount.responseText).data[i].monkeyscript;
+                        var functionscript = JSON.parse(appcasecount.responseText).data[i].functionscript;
+                        var runtime = JSON.parse(appcasecount.responseText).data[i].runtime;
                         var eventid = JSON.parse(appcasecount.responseText).data[i].eventid;
                         var createdtime = JSON.parse(appcasecount.responseText).data[i].createdtime;
                         traversedata[i] = {
                             'data': {
                                 'id': number,
                                 'caseid': caseid,
-                                'devicesinfos': devicesinfos,
-                                'operatetype': operatetype,
-                                'elementcontent' : elementcontent,
-                                'parameter': parameter,
-                                'waittime' : waittime,
-                                'runcasetime': runcasetime,
-                                'appiumport': appiumport,
-                                'caseexecute': caseexecute,
-                                'casereport': casereport,
+                                'memorysize': memorysize,
+                                'monkeyscript':monkeyscript,
+                                'functionscript' : functionscript,
+                                'runtime': runtime,
                                 'eventid': eventid,
                                 'createdtime': createdtime
                             }
                         }
+
                     }
                     // 判断当前选择 每页展示的数据
                     if (source.id == "lastPage") {
@@ -98,15 +89,10 @@ function queryappcase(source) {
                                     var html = '<tr class="listdata">';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.operatetype + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.elementcontent + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.parameter + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.waittime + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.memorysize + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.monkeyscript + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.functionscript + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runtime + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
                                     html += '</tr>';
@@ -139,15 +125,10 @@ function queryappcase(source) {
                                     var html = '<tr class="listdata">';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.operatetype + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.elementcontent + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.parameter + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.waittime + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.memorysize + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.monkeyscript + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.functionscript + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runtime + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
                                     html += '</tr>';
@@ -180,15 +161,10 @@ function queryappcase(source) {
                                     var html = '<tr class="listdata">';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.operatetype + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.elementcontent + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.parameter + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.waittime + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.memorysize + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.monkeyscript + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.functionscript + '</td>';
+                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.runtime + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
                                     html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
                                     html += '</tr>';
@@ -216,15 +192,10 @@ function queryappcase(source) {
                                 var html = '<tr class="listdata">';
                                 html += '<td style="font-size: 11px;text-align: center;">' + item.data.id + '</td>';
                                 html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseid + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.devicesinfos + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.operatetype + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.elementcontent + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.parameter + '</td>';
-                                    html += '<td style="font-size: 11px;text-align: center;">' + item.data.waittime + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.runcasetime + 's' + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.appiumport + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.caseexecute + '</td>';
-                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.casereport + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.memorysize + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.monkeyscript + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.functionscript + '</td>';
+                                html += '<td style="font-size: 11px;text-align: center;">' + item.data.runtime + '</td>';
                                 html += '<td style="font-size: 11px;text-align: center;">' + item.data.eventid + '</td>';
                                 html += '<td style="font-size: 11px;text-align: center;">' + item.data.createdtime + '</td>';
                                 html += '</tr>';
