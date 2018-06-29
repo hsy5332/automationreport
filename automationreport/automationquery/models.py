@@ -107,7 +107,7 @@ class automation_function_app(models.Model):
 # 远程服务端IP配置
 class automation_remote_ip(models.Model):
     ipaddress = models.CharField(max_length=20);
-    status = models.IntegerField(max_length=4);
+    status = models.CharField(max_length=4);
     createdtime = models.DateTimeField(default='auto_now_add');
 
 

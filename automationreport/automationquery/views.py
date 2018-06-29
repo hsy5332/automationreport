@@ -36,8 +36,11 @@ def cpuQuery(request):
 def launchTime(request):
     return render(request, 'launchTime.html')
 
+
 def memoryQuery(request):
     return render(request, 'memoryQuery.html')
+
+
 # def chart(request):
 #     return render(request,'chart.html')
 #
@@ -794,3 +797,26 @@ def webfunctioncount(request):
     else:
         functionappdatas_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
         return HttpResponse(json.dumps(functionappdatas_error))
+
+
+# 获取远程主机ip
+def get_remote_ip(request):
+    if request.POST:
+        try:
+            if token(request.POST['token']):
+                remote_ips_list = []  # 存放ip的列表
+                remote_ips = models.automation_remote_ip.objects.all()
+                for ips in remote_ips:
+                    if ips.status == "1":
+                        remote_ips_list.append(ips.ipaddress)
+                return_remote_ips = {"code": "200", "msg": "success", "data": remote_ips_list}
+                return HttpResponse(json.dumps(return_remote_ips))
+            else:
+                get_remote_ip_token_error = {"code": "-11", "msg": "token过期", "data": {}}
+                return HttpResponse(json.dumps(get_remote_ip_token_error))
+        except:
+            get_remote_ip_request_error = {"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}
+            return HttpResponse(json.dumps(get_remote_ip_request_error))
+    else:
+        get_remote_ip_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(get_remote_ip_error))
