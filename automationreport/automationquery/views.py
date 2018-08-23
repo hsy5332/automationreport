@@ -3,7 +3,7 @@ import json
 import datetime
 
 from django.shortcuts import render
-from automationquery import models
+from . import models
 from django.http import HttpResponse
 
 
@@ -108,38 +108,16 @@ def cpu(request):
     if request.POST:
         if token(request.POST['token']):
             try:
-                if request.POST['startdate'] and request.POST['enddate'] != "":
-                    # 判断开始时间和结束时间是否为空
-                    if request.POST['eventid'] != "":
-                        # 判断eventid 是否为空
-                        startdate = request.POST['startdate']
-                        enddate = request.POST['enddate']
-                        querydatas = models.automation_cpu_app.objects.filter(caseid=request.POST['caseid'])
-                        querydatalist = []
-                        for querydata in range(0, len(querydatas)):
-                            if querydatas[querydata].createdtime <= enddate and querydatas[
-                                querydata].createdtime >= startdate and request.POST[
-                                'eventid'] in querydatas[querydata].eventid:
-                                print()
-                                cpu_querydata = {
-                                    "id": querydatas[querydata].id,
-                                    "caseid": querydatas[querydata].caseid,
-                                    "cpuproportion": querydatas[querydata].cpuproportion,
-                                    "starttime": querydatas[querydata].starttime,
-                                    "endtime": querydatas[querydata].endtime,
-                                    "monkeyscript": querydatas[querydata].monkeyscript,
-                                    "functionscript": querydatas[querydata].functionscript,
-                                    "runtime": querydatas[querydata].runtime,
-                                    "eventid": querydatas[querydata].eventid,
-                                    "createdtime": querydatas[querydata].createdtime
-                                }
-                                querydatalist.append(cpu_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": querydatalist}))
-                    else:
-                        startdate = request.POST['startdate']
-                        enddate = request.POST['enddate']
-                        querydatas = models.automation_cpu_app.objects.filter(caseid=request.POST['caseid'])
-                        querydatalist = []
+                startdate = '0000-00-00 00:00:00'
+                enddate = '9999-00-00 00:00:00'
+                querydatas = models.automation_cpu_app.objects.all()
+                querydatalist = []
+                if request.POST['startdate'] != 'null' and request.POST['enddate'] != 'null':
+                    startdate = request.POST['startdate']
+                    enddate = request.POST['enddate']
+                if request.POST['eventid'] == 'null':
+                    # 判断eventid 是否为空
+                    if request.POST['caseid'] == 'null':
                         for querydata in range(0, len(querydatas)):
                             if querydatas[querydata].createdtime <= enddate and querydatas[
                                 querydata].createdtime >= startdate:
@@ -156,13 +134,30 @@ def cpu(request):
                                     "createdtime": querydatas[querydata].createdtime
                                 }
                                 querydatalist.append(cpu_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": querydatalist}))
-                else:
-                    if request.POST['eventid'] != "":
-                        querydatas = models.automation_cpu_app.objects.filter(caseid=request.POST['caseid'])
-                        querydatalist = []
+                    else:
                         for querydata in range(0, len(querydatas)):
-                            if request.POST['eventid'] in querydatas[querydata].eventid:
+                            if querydatas[querydata].createdtime <= enddate and querydatas[
+                                querydata].createdtime >= startdate:
+                                if request.POST['caseid'] == str(querydatas[querydata].caseid) or request.POST['caseid'] == int(querydatas[querydata].caseid):
+                                    cpu_querydata = {
+                                        "id": querydatas[querydata].id,
+                                        "caseid": querydatas[querydata].caseid,
+                                        "cpuproportion": querydatas[querydata].cpuproportion,
+                                        "starttime": querydatas[querydata].starttime,
+                                        "endtime": querydatas[querydata].endtime,
+                                        "monkeyscript": querydatas[querydata].monkeyscript,
+                                        "functionscript": querydatas[querydata].functionscript,
+                                        "runtime": querydatas[querydata].runtime,
+                                        "eventid": querydatas[querydata].eventid,
+                                        "createdtime": querydatas[querydata].createdtime
+                                    }
+                                    querydatalist.append(cpu_querydata)
+                else:
+                    if request.POST['caseid'] == 'null':
+                        for querydata in range(0, len(querydatas)):
+                            if querydatas[querydata].createdtime <= enddate and querydatas[
+                                querydata].createdtime >= startdate and request.POST['eventid'] in querydatas[
+                                querydata].eventid:
                                 cpu_querydata = {
                                     "id": querydatas[querydata].id,
                                     "caseid": querydatas[querydata].caseid,
@@ -176,25 +171,26 @@ def cpu(request):
                                     "createdtime": querydatas[querydata].createdtime
                                 }
                                 querydatalist.append(cpu_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": querydatalist}))
                     else:
-                        querydatas = models.automation_cpu_app.objects.filter(caseid=request.POST['caseid'])
-                        querydatalist = []
                         for querydata in range(0, len(querydatas)):
-                            cpu_querydata = {
-                                "id": querydatas[querydata].id,
-                                "caseid": querydatas[querydata].caseid,
-                                "cpuproportion": querydatas[querydata].cpuproportion,
-                                "starttime": querydatas[querydata].starttime,
-                                "endtime": querydatas[querydata].endtime,
-                                "monkeyscript": querydatas[querydata].monkeyscript,
-                                "functionscript": querydatas[querydata].functionscript,
-                                "runtime": querydatas[querydata].runtime,
-                                "eventid": querydatas[querydata].eventid,
-                                "createdtime": querydatas[querydata].createdtime
-                            }
-                            querydatalist.append(cpu_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": querydatalist}))
+                            if querydatas[querydata].createdtime <= enddate and querydatas[
+                                querydata].createdtime >= startdate and request.POST['eventid'] in querydatas[
+                                querydata].eventid:
+                                if request.POST['caseid'] == str(querydatas[querydata].caseid) or request.POST['caseid'] == int(querydatas[querydata].caseid):
+                                    cpu_querydata = {
+                                        "id": querydatas[querydata].id,
+                                        "caseid": querydatas[querydata].caseid,
+                                        "cpuproportion": querydatas[querydata].cpuproportion,
+                                        "starttime": querydatas[querydata].starttime,
+                                        "endtime": querydatas[querydata].endtime,
+                                        "monkeyscript": querydatas[querydata].monkeyscript,
+                                        "functionscript": querydatas[querydata].functionscript,
+                                        "runtime": querydatas[querydata].runtime,
+                                        "eventid": querydatas[querydata].eventid,
+                                        "createdtime": querydatas[querydata].createdtime
+                                    }
+                                    querydatalist.append(cpu_querydata)
+                return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": querydatalist}))
             except:
                 return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
         else:
@@ -210,16 +206,17 @@ def launchapp(request):
     if request.POST:
         if token(request.POST['token']):
             try:
-                if request.POST['startdate'] and request.POST['enddate'] != "":
-                    if request.POST['eventid'] != "":
-                        startdate = request.POST['startdate']
-                        enddate = request.POST['enddate']
-                        launchappdatas = models.automation_launch_app.objects.filter(caseid=request.POST['caseid'])
-                        launchappdatalist = []
+                startdate = '0000-00-00 00:00:00'
+                enddate = '9999-00-00 00:00:00'
+                launchappdatas = models.automation_launch_app.objects.all()
+                launchappdatalist = []
+                if request.POST['startdate'] != 'null' and request.POST['enddate'] != 'null':
+                    startdate = request.POST['startdate']
+                    enddate = request.POST['enddate']
+                if request.POST['eventid'] == 'null':
+                    if request.POST['caseid'] == 'null':
                         for launchappdata in range(0, len(launchappdatas)):
-                            if launchappdatas[launchappdata].createdtime <= enddate and launchappdatas[
-                                launchappdata].createdtime >= startdate and request.POST['eventid'] in launchappdatas[
-                                launchappdata].eventid:
+                            if launchappdatas[launchappdata].createdtime <= enddate and launchappdatas[launchappdata].createdtime >= startdate:
                                 cpu_querydata = {
                                     "id": launchappdatas[launchappdata].id,
                                     "starttime": launchappdatas[launchappdata].starttime,
@@ -231,64 +228,54 @@ def launchapp(request):
                                     "createdtime": launchappdatas[launchappdata].createdtime
                                 }
                                 launchappdatalist.append(cpu_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": launchappdatalist}))
                     else:
-                        startdate = request.POST['startdate']
-                        enddate = request.POST['enddate']
-                        launchappdatas = models.automation_launch_app.objects.filter(caseid=request.POST['caseid'])
-                        launchappdatalist = []
                         for launchappdata in range(0, len(launchappdatas)):
-                            if launchappdatas[launchappdata].createdtime <= enddate and launchappdatas[
-                                launchappdata].createdtime >= startdate:
-                                cpu_querydata = {
-                                    "id": launchappdatas[launchappdata].id,
-                                    "starttime": launchappdatas[launchappdata].starttime,
-                                    "launchtime": launchappdatas[launchappdata].launchtime,
-                                    "endtime": launchappdatas[launchappdata].endtime,
-                                    "launchtype": launchappdatas[launchappdata].launchtype,
-                                    "eventid": launchappdatas[launchappdata].eventid,
-                                    "caseid": launchappdatas[launchappdata].caseid,
-                                    "createdtime": launchappdatas[launchappdata].createdtime
-                                }
-                                launchappdatalist.append(cpu_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": launchappdatalist}))
+                            if launchappdatas[launchappdata].createdtime <= enddate and launchappdatas[launchappdata].createdtime >= startdate:
+                                if request.POST['caseid'] == int(launchappdatas[launchappdata].id) or request.POST['caseid'] == str(launchappdatas[launchappdata].caseid):
+                                    cpu_querydata = {
+                                        "id": launchappdatas[launchappdata].id,
+                                        "starttime": launchappdatas[launchappdata].starttime,
+                                        "launchtime": launchappdatas[launchappdata].launchtime,
+                                        "endtime": launchappdatas[launchappdata].endtime,
+                                        "launchtype": launchappdatas[launchappdata].launchtype,
+                                        "eventid": launchappdatas[launchappdata].eventid,
+                                        "caseid": launchappdatas[launchappdata].caseid,
+                                        "createdtime": launchappdatas[launchappdata].createdtime
+                                    }
+                                    launchappdatalist.append(cpu_querydata)
                 else:
-                    if request.POST['eventid'] != "":
-                        launchappdatas = models.automation_launch_app.objects.filter(caseid=request.POST['caseid'])
-                        launchappdatalist = []
+                    if request.POST['caseid'] == 'null':
                         for launchappdata in range(0, len(launchappdatas)):
-                            if request.POST['eventid'] in launchappdatas[
-                                launchappdata].eventid:
+                            if launchappdatas[launchappdata].createdtime <= enddate and launchappdatas[launchappdata].createdtime >= startdate and request.POST['eventid'] in \
+                                    launchappdatas[launchappdata].eventid:
                                 cpu_querydata = {
                                     "id": launchappdatas[launchappdata].id,
                                     "starttime": launchappdatas[launchappdata].starttime,
                                     "launchtime": launchappdatas[launchappdata].launchtime,
                                     "endtime": launchappdatas[launchappdata].endtime,
                                     "launchtype": launchappdatas[launchappdata].launchtype,
-                                    "launchtime": launchappdatas[launchappdata].launchtime,
                                     "eventid": launchappdatas[launchappdata].eventid,
                                     "caseid": launchappdatas[launchappdata].caseid,
                                     "createdtime": launchappdatas[launchappdata].createdtime
                                 }
                                 launchappdatalist.append(cpu_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": launchappdatalist}))
                     else:
-                        launchappdatas = models.automation_launch_app.objects.filter(caseid=request.POST['caseid'])
-                        launchappdatalist = []
                         for launchappdata in range(0, len(launchappdatas)):
-                            cpu_querydata = {
-                                "id": launchappdatas[launchappdata].id,
-                                "starttime": launchappdatas[launchappdata].starttime,
-                                "launchtime": launchappdatas[launchappdata].launchtime,
-                                "endtime": launchappdatas[launchappdata].endtime,
-                                "launchtype": launchappdatas[launchappdata].launchtype,
-                                "launchtime": launchappdatas[launchappdata].launchtime,
-                                "eventid": launchappdatas[launchappdata].eventid,
-                                "caseid": launchappdatas[launchappdata].caseid,
-                                "createdtime": launchappdatas[launchappdata].createdtime
-                            }
-                            launchappdatalist.append(cpu_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": launchappdatalist}))
+                            if launchappdatas[launchappdata].createdtime <= enddate and launchappdatas[launchappdata].createdtime >= startdate and request.POST['eventid'] in \
+                                    launchappdatas[launchappdata].eventid:
+                                if request.POST['caseid'] == int(launchappdatas[launchappdata].id) or request.POST['caseid'] == str(launchappdatas[launchappdata].caseid):
+                                    cpu_querydata = {
+                                        "id": launchappdatas[launchappdata].id,
+                                        "starttime": launchappdatas[launchappdata].starttime,
+                                        "launchtime": launchappdatas[launchappdata].launchtime,
+                                        "endtime": launchappdatas[launchappdata].endtime,
+                                        "launchtype": launchappdatas[launchappdata].launchtype,
+                                        "eventid": launchappdatas[launchappdata].eventid,
+                                        "caseid": launchappdatas[launchappdata].caseid,
+                                        "createdtime": launchappdatas[launchappdata].createdtime
+                                    }
+                                    launchappdatalist.append(cpu_querydata)
+                return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": launchappdatalist}))
             except:
                 return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
         else:
@@ -430,7 +417,8 @@ def interface(request):
                     else:
                         startdate = request.POST['startdate']
                         enddate = request.POST['enddate']
-                        interfacedatas = models.automation_interface.objects.filter(caseid=request.POST['caseid'])
+                        interfacedatas = models.automation_interface.objects.all()
+                        print(interfacedatas)
                         interfacedatalist = []
                         for interfacedata in range(0, len(interfacedatas)):
                             if interfacedatas[interfacedata].createdtime >= startdate and interfacedatas[
@@ -502,12 +490,62 @@ def functionapp(request):
     if request.POST:
         if token(request.POST['token']):
             try:
-                if request.POST['startdate'] and request.POST['enddate'] != "":
-                    if request.POST['eventid'] != "":
-                        startdate = request.POST['startdate']
-                        enddate = request.POST['enddate']
-                        functionappdatas = models.automation_function_app.objects.filter(caseid=request.POST['caseid'])
-                        functionappdatalist = []
+                startdate = '0000-00-00 00:00:00'
+                enddate = '9999-00-00 00:00:00'
+                functionappdatas = models.automation_function_app.objects.all()
+                functionappdatalist = []
+                if request.POST['startdate'] != 'null' and request.POST['enddate'] != 'null':
+                    startdate = request.POST['startdate']
+                    enddate = request.POST['enddate']
+                if request.POST['eventid'] == 'null':
+                    if request.POST['caseid'] == 'null':
+                        for functionappdata in range(0, len(functionappdatas)):
+                            if functionappdatas[functionappdata].createdtime >= startdate and functionappdatas[
+                                functionappdata].createdtime <= enddate:
+                                functionapp_querydata = {
+                                    "id": functionappdatas[functionappdata].id,
+                                    "caseid": functionappdatas[functionappdata].caseid,
+                                    "devicesinfos": functionappdatas[functionappdata].devicesinfos,
+                                    "appiumport": functionappdatas[functionappdata].appiumport,
+                                    "devicesexecute": functionappdatas[functionappdata].devicesexecute,
+                                    "operatetype": functionappdatas[functionappdata].operatetype,
+                                    "parameter": functionappdatas[functionappdata].parameter,
+                                    "waittime": functionappdatas[functionappdata].waittime,
+                                    "element": functionappdatas[functionappdata].element,
+                                    "rundescribe": functionappdatas[functionappdata].rundescribe,
+                                    "casereport": functionappdatas[functionappdata].casereport,
+                                    "caseexecute": functionappdatas[functionappdata].caseexecute,
+                                    "runcasetime": functionappdatas[functionappdata].runcasetime,
+                                    "eventid": functionappdatas[functionappdata].eventid,
+                                    "createdtime": functionappdatas[functionappdata].createdtime,
+                                }
+                                functionappdatalist.append(functionapp_querydata)
+                    else:
+                        for functionappdata in range(0, len(functionappdatas)):
+                            if functionappdatas[functionappdata].createdtime >= startdate and functionappdatas[
+                                functionappdata].createdtime <= enddate:
+                                if str(functionappdatas[functionappdata].caseid) == request.POST['caseid'] or int(functionappdatas[functionappdata].caseid) == request.POST[
+                                    'caseid']:
+                                    functionapp_querydata = {
+                                        "id": functionappdatas[functionappdata].id,
+                                        "caseid": functionappdatas[functionappdata].caseid,
+                                        "devicesinfos": functionappdatas[functionappdata].devicesinfos,
+                                        "appiumport": functionappdatas[functionappdata].appiumport,
+                                        "devicesexecute": functionappdatas[functionappdata].devicesexecute,
+                                        "operatetype": functionappdatas[functionappdata].operatetype,
+                                        "parameter": functionappdatas[functionappdata].parameter,
+                                        "waittime": functionappdatas[functionappdata].waittime,
+                                        "element": functionappdatas[functionappdata].element,
+                                        "rundescribe": functionappdatas[functionappdata].rundescribe,
+                                        "casereport": functionappdatas[functionappdata].casereport,
+                                        "caseexecute": functionappdatas[functionappdata].caseexecute,
+                                        "runcasetime": functionappdatas[functionappdata].runcasetime,
+                                        "eventid": functionappdatas[functionappdata].eventid,
+                                        "createdtime": functionappdatas[functionappdata].createdtime,
+                                    }
+                                    functionappdatalist.append(functionapp_querydata)
+                else:
+                    if request.POST['caseid'] == 'null':
                         for functionappdata in range(0, len(functionappdatas)):
                             if functionappdatas[functionappdata].createdtime >= startdate and functionappdatas[
                                 functionappdata].createdtime <= enddate and request.POST['eventid'] in functionappdatas[
@@ -530,82 +568,32 @@ def functionapp(request):
                                     "createdtime": functionappdatas[functionappdata].createdtime,
                                 }
                                 functionappdatalist.append(functionapp_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionappdatalist}))
                     else:
-                        startdate = request.POST['startdate']
-                        enddate = request.POST['enddate']
-                        functionappdatas = models.automation_function_app.objects.filter(caseid=request.POST['caseid'])
-                        functionappdatalist = []
                         for functionappdata in range(0, len(functionappdatas)):
                             if functionappdatas[functionappdata].createdtime >= startdate and functionappdatas[
-                                functionappdata].createdtime <= enddate:
-                                functionapp_querydata = {
-                                    "id": functionappdatas[functionappdata].id,
-                                    "caseid": functionappdatas[functionappdata].caseid,
-                                    "devicesinfos": functionappdatas[functionappdata].devicesinfos,
-                                    "appiumport": functionappdatas[functionappdata].appiumport,
-                                    "devicesexecute": functionappdatas[functionappdata].devicesexecute,
-                                    "operatetype": functionappdatas[functionappdata].operatetype,
-                                    "parameter": functionappdatas[functionappdata].parameter,
-                                    "waittime": functionappdatas[functionappdata].waittime,
-                                    "element": functionappdatas[functionappdata].element,
-                                    "rundescribe": functionappdatas[functionappdata].rundescribe,
-                                    "casereport": functionappdatas[functionappdata].casereport,
-                                    "caseexecute": functionappdatas[functionappdata].caseexecute,
-                                    "runcasetime": functionappdatas[functionappdata].runcasetime,
-                                    "eventid": functionappdatas[functionappdata].eventid,
-                                    "createdtime": functionappdatas[functionappdata].createdtime,
-                                }
-                                functionappdatalist.append(functionapp_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionappdatalist}))
-                else:
-                    if request.POST['eventid'] != "":
-                        functionappdatas = models.automation_function_app.objects.filter(caseid=request.POST['caseid'])
-                        functionappdatalist = []
-                        for functionappdata in range(0, len(functionappdatas)):
-                            if request.POST['eventid'] in functionappdatas[functionappdata].eventid:
-                                functionapp_querydata = {
-                                    "id": functionappdatas[functionappdata].id,
-                                    "caseid": functionappdatas[functionappdata].caseid,
-                                    "devicesinfos": functionappdatas[functionappdata].devicesinfos,
-                                    "appiumport": functionappdatas[functionappdata].appiumport,
-                                    "devicesexecute": functionappdatas[functionappdata].devicesexecute,
-                                    "operatetype": functionappdatas[functionappdata].operatetype,
-                                    "parameter": functionappdatas[functionappdata].parameter,
-                                    "waittime": functionappdatas[functionappdata].waittime,
-                                    "element": functionappdatas[functionappdata].element,
-                                    "rundescribe": functionappdatas[functionappdata].rundescribe,
-                                    "casereport": functionappdatas[functionappdata].casereport,
-                                    "caseexecute": functionappdatas[functionappdata].caseexecute,
-                                    "runcasetime": functionappdatas[functionappdata].runcasetime,
-                                    "eventid": functionappdatas[functionappdata].eventid,
-                                    "createdtime": functionappdatas[functionappdata].createdtime,
-                                }
-                                functionappdatalist.append(functionapp_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionappdatalist}))
-                    else:
-                        functionappdatas = models.automation_function_app.objects.filter(caseid=request.POST['caseid'])
-                        functionappdatalist = []
-                        for functionappdata in range(0, len(functionappdatas)):
-                            functionapp_querydata = {
-                                "id": functionappdatas[functionappdata].id,
-                                "caseid": functionappdatas[functionappdata].caseid,
-                                "devicesinfos": functionappdatas[functionappdata].devicesinfos,
-                                "appiumport": functionappdatas[functionappdata].appiumport,
-                                "devicesexecute": functionappdatas[functionappdata].devicesexecute,
-                                "operatetype": functionappdatas[functionappdata].operatetype,
-                                "parameter": functionappdatas[functionappdata].parameter,
-                                "waittime": functionappdatas[functionappdata].waittime,
-                                "element": functionappdatas[functionappdata].element,
-                                "rundescribe": functionappdatas[functionappdata].rundescribe,
-                                "casereport": functionappdatas[functionappdata].casereport,
-                                "caseexecute": functionappdatas[functionappdata].caseexecute,
-                                "runcasetime": functionappdatas[functionappdata].runcasetime,
-                                "eventid": functionappdatas[functionappdata].eventid,
-                                "createdtime": functionappdatas[functionappdata].createdtime,
-                            }
-                            functionappdatalist.append(functionapp_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionappdatalist}))
+                                functionappdata].createdtime <= enddate and request.POST['eventid'] in functionappdatas[
+                                functionappdata].eventid:
+                                if str(functionappdatas[functionappdata].caseid) == request.POST['caseid'] or int(functionappdatas[functionappdata].caseid) == request.POST[
+                                    'caseid']:
+                                    functionapp_querydata = {
+                                        "id": functionappdatas[functionappdata].id,
+                                        "caseid": functionappdatas[functionappdata].caseid,
+                                        "devicesinfos": functionappdatas[functionappdata].devicesinfos,
+                                        "appiumport": functionappdatas[functionappdata].appiumport,
+                                        "devicesexecute": functionappdatas[functionappdata].devicesexecute,
+                                        "operatetype": functionappdatas[functionappdata].operatetype,
+                                        "parameter": functionappdatas[functionappdata].parameter,
+                                        "waittime": functionappdatas[functionappdata].waittime,
+                                        "element": functionappdatas[functionappdata].element,
+                                        "rundescribe": functionappdatas[functionappdata].rundescribe,
+                                        "casereport": functionappdatas[functionappdata].casereport,
+                                        "caseexecute": functionappdatas[functionappdata].caseexecute,
+                                        "runcasetime": functionappdatas[functionappdata].runcasetime,
+                                        "eventid": functionappdatas[functionappdata].eventid,
+                                        "createdtime": functionappdatas[functionappdata].createdtime,
+                                    }
+                                    functionappdatalist.append(functionapp_querydata)
+                return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionappdatalist}))
             except:
                 return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
         else:
@@ -621,40 +609,15 @@ def functionweb(request):
     if request.POST:
         if token(request.POST['token']):
             try:
-                if request.POST['startdate'] and request.POST['enddate'] != "":
-                    if request.POST['eventid'] != "":
-                        startdate = request.POST['startdate']
-                        enddate = request.POST['enddate']
-                        functionwebdatas = models.automation_function_web.objects.filter(caseid=request.POST['caseid'])
-                        functionwebdatalist = []
-                        for functionwebdata in range(0, len(functionwebdatas)):
-                            if functionwebdatas[functionwebdata].createdtime >= startdate and functionwebdatas[
-                                functionwebdata].createdtime <= enddate and request.POST['eventid'] in functionwebdatas[
-                                functionwebdata].eventid:
-                                functionweb_querydata = {
-                                    "id": functionwebdatas[functionwebdata].id,
-                                    "caseid": functionwebdatas[functionwebdata].caseid,
-                                    "browsername": functionwebdatas[functionwebdata].browsername,
-                                    "browserconfigure": functionwebdatas[functionwebdata].browserconfigure,
-                                    "browserstatus": functionwebdatas[functionwebdata].browserstatus,
-                                    "operatetype": functionwebdatas[functionwebdata].operatetype,
-                                    "element": functionwebdatas[functionwebdata].element,
-                                    "parameter": functionwebdatas[functionwebdata].parameter,
-                                    "waittime": functionwebdatas[functionwebdata].waittime,
-                                    "rundescribe": functionwebdatas[functionwebdata].rundescribe,
-                                    "casereport": functionwebdatas[functionwebdata].casereport,
-                                    "caseexecute": functionwebdatas[functionwebdata].caseexecute,
-                                    "runcasetime": functionwebdatas[functionwebdata].runcasetime,
-                                    "eventid": functionwebdatas[functionwebdata].eventid,
-                                    "createdtime": functionwebdatas[functionwebdata].createdtime,
-                                }
-                                functionwebdatalist.append(functionweb_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionwebdatalist}))
-                    else:
-                        startdate = request.POST['startdate']
-                        enddate = request.POST['enddate']
-                        functionwebdatas = models.automation_function_web.objects.filter(caseid=request.POST['caseid'])
-                        functionwebdatalist = []
+                startdate = '0000-00-00 00:00:00'
+                enddate = '9999-00-00 00:00:00'
+                functionwebdatas = models.automation_function_web.objects.filter(caseid=request.POST['caseid'])
+                functionwebdatalist = []
+                if request.POST['startdate'] != 'null' and request.POST['enddate'] != "":
+                    startdate = request.POST['startdate']
+                    enddate = request.POST['enddate']
+                if request.POST['eventid'] == 'null':
+                    if request.POST['caseid'] == 'null':
                         for functionwebdata in range(0, len(functionwebdatas)):
                             if functionwebdatas[functionwebdata].createdtime >= startdate and functionwebdatas[
                                 functionwebdata].createdtime <= enddate:
@@ -676,13 +639,35 @@ def functionweb(request):
                                     "createdtime": functionwebdatas[functionwebdata].createdtime,
                                 }
                                 functionwebdatalist.append(functionweb_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionwebdatalist}))
-                else:
-                    if request.POST['eventid'] != "":
-                        functionwebdatas = models.automation_function_web.objects.filter(caseid=request.POST['caseid'])
-                        functionwebdatalist = []
+                    else:
                         for functionwebdata in range(0, len(functionwebdatas)):
-                            if request.POST['eventid'] in functionwebdatas[functionwebdata].eventid:
+                            if functionwebdatas[functionwebdata].createdtime >= startdate and functionwebdatas[
+                                functionwebdata].createdtime <= enddate:
+                                if request.POST['caseid'] == str(functionwebdatas[functionwebdata].caseid) or request.POST['caseid'] == int(
+                                        functionwebdatas[functionwebdata].caseid):
+                                    functionweb_querydata = {
+                                        "id": functionwebdatas[functionwebdata].id,
+                                        "caseid": functionwebdatas[functionwebdata].caseid,
+                                        "browsername": functionwebdatas[functionwebdata].browsername,
+                                        "browserconfigure": functionwebdatas[functionwebdata].browserconfigure,
+                                        "browserstatus": functionwebdatas[functionwebdata].browserstatus,
+                                        "operatetype": functionwebdatas[functionwebdata].operatetype,
+                                        "element": functionwebdatas[functionwebdata].element,
+                                        "parameter": functionwebdatas[functionwebdata].parameter,
+                                        "waittime": functionwebdatas[functionwebdata].waittime,
+                                        "rundescribe": functionwebdatas[functionwebdata].rundescribe,
+                                        "casereport": functionwebdatas[functionwebdata].casereport,
+                                        "caseexecute": functionwebdatas[functionwebdata].caseexecute,
+                                        "runcasetime": functionwebdatas[functionwebdata].runcasetime,
+                                        "eventid": functionwebdatas[functionwebdata].eventid,
+                                        "createdtime": functionwebdatas[functionwebdata].createdtime,
+                                    }
+                                    functionwebdatalist.append(functionweb_querydata)
+                else:
+                    if request.POST['caseid'] == 'null':
+                        for functionwebdata in range(0, len(functionwebdatas)):
+                            if functionwebdatas[functionwebdata].createdtime >= startdate and functionwebdatas[
+                                functionwebdata].createdtime <= enddate and request.POST['eventid'] in functionwebdatas[functionwebdata].eventid:
                                 functionweb_querydata = {
                                     "id": functionwebdatas[functionwebdata].id,
                                     "caseid": functionwebdatas[functionwebdata].caseid,
@@ -701,30 +686,32 @@ def functionweb(request):
                                     "createdtime": functionwebdatas[functionwebdata].createdtime,
                                 }
                                 functionwebdatalist.append(functionweb_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionwebdatalist}))
                     else:
-                        functionwebdatas = models.automation_function_web.objects.filter(caseid=request.POST['caseid'])
-                        functionwebdatalist = []
                         for functionwebdata in range(0, len(functionwebdatas)):
-                            functionweb_querydata = {
-                                "id": functionwebdatas[functionwebdata].id,
-                                "caseid": functionwebdatas[functionwebdata].caseid,
-                                "browsername": functionwebdatas[functionwebdata].browsername,
-                                "browserconfigure": functionwebdatas[functionwebdata].browserconfigure,
-                                "browserstatus": functionwebdatas[functionwebdata].browserstatus,
-                                "operatetype": functionwebdatas[functionwebdata].operatetype,
-                                "element": functionwebdatas[functionwebdata].element,
-                                "parameter": functionwebdatas[functionwebdata].parameter,
-                                "waittime": functionwebdatas[functionwebdata].waittime,
-                                "rundescribe": functionwebdatas[functionwebdata].rundescribe,
-                                "casereport": functionwebdatas[functionwebdata].casereport,
-                                "caseexecute": functionwebdatas[functionwebdata].caseexecute,
-                                "runcasetime": functionwebdatas[functionwebdata].runcasetime,
-                                "eventid": functionwebdatas[functionwebdata].eventid,
-                                "createdtime": functionwebdatas[functionwebdata].createdtime,
-                            }
-                            functionwebdatalist.append(functionweb_querydata)
-                        return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionwebdatalist}))
+                            if functionwebdatas[functionwebdata].createdtime >= startdate and functionwebdatas[
+                                functionwebdata].createdtime <= enddate and request.POST['eventid'] in functionwebdatas[functionwebdata].eventid:
+                                if request.POST['caseid'] == str(functionwebdatas[functionwebdata].caseid) or request.POST['caseid'] == int(
+                                        functionwebdatas[functionwebdata].caseid):
+                                    functionweb_querydata = {
+                                        "id": functionwebdatas[functionwebdata].id,
+                                        "caseid": functionwebdatas[functionwebdata].caseid,
+                                        "browsername": functionwebdatas[functionwebdata].browsername,
+                                        "browserconfigure": functionwebdatas[functionwebdata].browserconfigure,
+                                        "browserstatus": functionwebdatas[functionwebdata].browserstatus,
+                                        "operatetype": functionwebdatas[functionwebdata].operatetype,
+                                        "element": functionwebdatas[functionwebdata].element,
+                                        "parameter": functionwebdatas[functionwebdata].parameter,
+                                        "waittime": functionwebdatas[functionwebdata].waittime,
+                                        "rundescribe": functionwebdatas[functionwebdata].rundescribe,
+                                        "casereport": functionwebdatas[functionwebdata].casereport,
+                                        "caseexecute": functionwebdatas[functionwebdata].caseexecute,
+                                        "runcasetime": functionwebdatas[functionwebdata].runcasetime,
+                                        "eventid": functionwebdatas[functionwebdata].eventid,
+                                        "createdtime": functionwebdatas[functionwebdata].createdtime,
+                                    }
+                                    functionwebdatalist.append(functionweb_querydata)
+                print(len(functionwebdatalist))
+                return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionwebdatalist}))
             except:
                 return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
         else:
