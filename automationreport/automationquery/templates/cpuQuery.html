@@ -171,14 +171,15 @@
                                                     <option value="50" id="threenumber">50</option>
                                                 </select></li>
                                                 条<span id="totalcounts"></span><span id="currentpage"></span>
+                                                <li id="current_page">，目前在第1页</li>
                                                 <li><a href="javascript:void(0)" id="firstPage"
-                                                       onclick="queryappcase(firstPage)">首页</a></li>
-                                                <li><a href="###" id="prePage" onclick="queryappcase(prePage)">上一页</a>
+                                                       onclick="page_turning(firstPage)">首页</a></li>
+                                                <li><a href="###" id="prePage" onclick="page_turning(prePage)">上一页</a>
                                                 </li>
-                                                <li><a href="###" id="nextPage" onclick="queryappcase(nextPage)">下一页</a>
+                                                <li><a href="###" id="nextPage" onclick="page_turning(nextPage)">下一页</a>
                                                 </li>
                                                 <li><a href="javascript:void(0)" id="lastPage"
-                                                       onclick="queryappcase(lastPage)">尾页</a></li>
+                                                       onclick="page_turning(lastPage)">尾页</a></li>
                                             </ul>
                                         </div>
                                     </div>

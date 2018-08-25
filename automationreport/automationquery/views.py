@@ -285,7 +285,10 @@ def launchapp(request):
                                             "createdtime": launchappdatas[launchappdata].createdtime
                                         }
                                         launchappdatalist.append(cpu_querydata)
-                                except:pass
+                                except:
+                                    pass
+                print(launchappdatalist)
+                print(len(launchappdatalist))
                 return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": launchappdatalist}))
             except:
                 return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
@@ -427,25 +430,25 @@ def interface(request):
                                 }
                                 interfacedatalist.append(interface_querydata)
                     else:
-                            for interfacedata in range(0, len(interfacedatas)):
-                                if interfacedatas[interfacedata].createdtime >= startdate and interfacedatas[interfacedata].createdtime <= enddate:
-                                    try:
-                                        if request.POST['caseid'] == int(interfacedatas[interfacedata].caseid) or request.POST['caseid'] == str(interfacedatas[interfacedata].caseid):
-                                            interface_querydata = {
-                                                "id": interfacedatas[interfacedata].id,
-                                                "caseid": interfacedatas[interfacedata].caseid,
-                                                "interfaceurl": interfacedatas[interfacedata].interfaceurl,
-                                                "requestparameter": interfacedatas[interfacedata].id,
-                                                "returnparameter": interfacedatas[interfacedata].requestparameter,
-                                                "requesttype": interfacedatas[interfacedata].requesttype,
-                                                "casestatus": interfacedatas[interfacedata].casestatus,
-                                                "remark": interfacedatas[interfacedata].remark,
-                                                "eventid": interfacedatas[interfacedata].eventid,
-                                                "createdtime": interfacedatas[interfacedata].createdtime,
-                                            }
-                                            interfacedatalist.append(interface_querydata)
-                                    except:
-                                        pass
+                        for interfacedata in range(0, len(interfacedatas)):
+                            if interfacedatas[interfacedata].createdtime >= startdate and interfacedatas[interfacedata].createdtime <= enddate:
+                                try:
+                                    if request.POST['caseid'] == int(interfacedatas[interfacedata].caseid) or request.POST['caseid'] == str(interfacedatas[interfacedata].caseid):
+                                        interface_querydata = {
+                                            "id": interfacedatas[interfacedata].id,
+                                            "caseid": interfacedatas[interfacedata].caseid,
+                                            "interfaceurl": interfacedatas[interfacedata].interfaceurl,
+                                            "requestparameter": interfacedatas[interfacedata].id,
+                                            "returnparameter": interfacedatas[interfacedata].requestparameter,
+                                            "requesttype": interfacedatas[interfacedata].requesttype,
+                                            "casestatus": interfacedatas[interfacedata].casestatus,
+                                            "remark": interfacedatas[interfacedata].remark,
+                                            "eventid": interfacedatas[interfacedata].eventid,
+                                            "createdtime": interfacedatas[interfacedata].createdtime,
+                                        }
+                                        interfacedatalist.append(interface_querydata)
+                                except:
+                                    pass
                 else:
                     if request.POST['caseid'] == '':
                         for interfacedata in range(0, len(interfacedatas)):
@@ -466,23 +469,23 @@ def interface(request):
                     else:
                         for interfacedata in range(0, len(interfacedatas)):
                             if interfacedatas[interfacedata].createdtime >= startdate and interfacedatas[interfacedata].createdtime <= enddate and request.POST['eventid'] in interfacedatas[interfacedata].eventid:
-                               try:
-                                   if request.POST['caseid'] == int(interfacedatas[interfacedata].caseid) or request.POST['caseid'] == str(interfacedatas[interfacedata].caseid):
-                                       interface_querydata = {
-                                           "id": interfacedatas[interfacedata].id,
-                                           "caseid": interfacedatas[interfacedata].caseid,
-                                           "interfaceurl": interfacedatas[interfacedata].interfaceurl,
-                                           "requestparameter": interfacedatas[interfacedata].id,
-                                           "returnparameter": interfacedatas[interfacedata].requestparameter,
-                                           "requesttype": interfacedatas[interfacedata].requesttype,
-                                           "casestatus": interfacedatas[interfacedata].casestatus,
-                                           "remark": interfacedatas[interfacedata].remark,
-                                           "eventid": interfacedatas[interfacedata].eventid,
-                                           "createdtime": interfacedatas[interfacedata].createdtime,
-                                       }
-                                       interfacedatalist.append(interface_querydata)
-                               except:
-                                   pass
+                                try:
+                                    if request.POST['caseid'] == int(interfacedatas[interfacedata].caseid) or request.POST['caseid'] == str(interfacedatas[interfacedata].caseid):
+                                        interface_querydata = {
+                                            "id": interfacedatas[interfacedata].id,
+                                            "caseid": interfacedatas[interfacedata].caseid,
+                                            "interfaceurl": interfacedatas[interfacedata].interfaceurl,
+                                            "requestparameter": interfacedatas[interfacedata].id,
+                                            "returnparameter": interfacedatas[interfacedata].requestparameter,
+                                            "requesttype": interfacedatas[interfacedata].requesttype,
+                                            "casestatus": interfacedatas[interfacedata].casestatus,
+                                            "remark": interfacedatas[interfacedata].remark,
+                                            "eventid": interfacedatas[interfacedata].eventid,
+                                            "createdtime": interfacedatas[interfacedata].createdtime,
+                                        }
+                                        interfacedatalist.append(interface_querydata)
+                                except:
+                                    pass
                 return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": interfacedatalist}))
             except:
                 return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
@@ -708,26 +711,29 @@ def functionweb(request):
                     for functionwebdata in range(0, len(functionwebdatas)):
                         if functionwebdatas[functionwebdata].createdtime >= startdate and functionwebdatas[
                             functionwebdata].createdtime <= enddate and request.POST['eventid'] in functionwebdatas[functionwebdata].eventid:
-                            if request.POST['caseid'] == str(functionwebdatas[functionwebdata].caseid) or request.POST['caseid'] == int(
-                                    functionwebdatas[functionwebdata].caseid):
-                                functionweb_querydata = {
-                                    "id": functionwebdatas[functionwebdata].id,
-                                    "caseid": functionwebdatas[functionwebdata].caseid,
-                                    "browsername": functionwebdatas[functionwebdata].browsername,
-                                    "browserconfigure": functionwebdatas[functionwebdata].browserconfigure,
-                                    "browserstatus": functionwebdatas[functionwebdata].browserstatus,
-                                    "operatetype": functionwebdatas[functionwebdata].operatetype,
-                                    "element": functionwebdatas[functionwebdata].element,
-                                    "parameter": functionwebdatas[functionwebdata].parameter,
-                                    "waittime": functionwebdatas[functionwebdata].waittime,
-                                    "rundescribe": functionwebdatas[functionwebdata].rundescribe,
-                                    "casereport": functionwebdatas[functionwebdata].casereport,
-                                    "caseexecute": functionwebdatas[functionwebdata].caseexecute,
-                                    "runcasetime": functionwebdatas[functionwebdata].runcasetime,
-                                    "eventid": functionwebdatas[functionwebdata].eventid,
-                                    "createdtime": functionwebdatas[functionwebdata].createdtime,
-                                }
-                                functionwebdatalist.append(functionweb_querydata)
+                            try:
+                                if request.POST['caseid'] == str(functionwebdatas[functionwebdata].caseid) or request.POST['caseid'] == int(
+                                        functionwebdatas[functionwebdata].caseid):
+                                    functionweb_querydata = {
+                                        "id": functionwebdatas[functionwebdata].id,
+                                        "caseid": functionwebdatas[functionwebdata].caseid,
+                                        "browsername": functionwebdatas[functionwebdata].browsername,
+                                        "browserconfigure": functionwebdatas[functionwebdata].browserconfigure,
+                                        "browserstatus": functionwebdatas[functionwebdata].browserstatus,
+                                        "operatetype": functionwebdatas[functionwebdata].operatetype,
+                                        "element": functionwebdatas[functionwebdata].element,
+                                        "parameter": functionwebdatas[functionwebdata].parameter,
+                                        "waittime": functionwebdatas[functionwebdata].waittime,
+                                        "rundescribe": functionwebdatas[functionwebdata].rundescribe,
+                                        "casereport": functionwebdatas[functionwebdata].casereport,
+                                        "caseexecute": functionwebdatas[functionwebdata].caseexecute,
+                                        "runcasetime": functionwebdatas[functionwebdata].runcasetime,
+                                        "eventid": functionwebdatas[functionwebdata].eventid,
+                                        "createdtime": functionwebdatas[functionwebdata].createdtime,
+                                    }
+                                    functionwebdatalist.append(functionweb_querydata)
+                            except:
+                                pass
             print(len(functionwebdatalist))
             return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functionwebdatalist}))
         # except:
