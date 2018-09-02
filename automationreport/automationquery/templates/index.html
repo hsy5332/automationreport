@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>自动化用例查询后台</title>
     <!-- Bootstrap Styles-->
+    <link href="../../static/css/index.css" rel="stylesheet"/>
     <link href="../../static/css/bootstrap.css" rel="stylesheet"/>
     <!-- FontAwesome Styles-->
     <link href="../../static/css/font-awesome.css" rel="stylesheet"/>
@@ -21,6 +22,14 @@
 
 <body>
 <div id="wrapper">
+    <div id="pop_up_windows">
+        <div id="pop_up_data"></div>
+        <div id="close_button">
+            <button onclick="show_close()">
+                关闭弹窗
+            </button>
+        </div>
+    </div>
     <nav class="navbar navbar-default top-navbar" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">

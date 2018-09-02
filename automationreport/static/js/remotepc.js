@@ -75,12 +75,14 @@ function get_devices(element_content) {
                     });
                 }
             } else {
-                show_element('无法连接此主机，请检查该主机是否正常运行!')
+                show_element('无法连接此主机!')
             }
+        }else{
+            show_element('未获取到任何移动设备!')
         }
     })
         .catch(res => {
-            show_element('无法连接此主机，请检查该主机是否正常运行!')
+            show_element('无法连接此主机!')
         })
 }
 

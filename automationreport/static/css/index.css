@@ -1,0 +1,29 @@
+#pop_up_windows {
+    display: none;
+    width: 20%;
+    height: 20%;
+    background: #1cc09f;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -8%;
+    margin-top: -6%;
+    z-index: 999;
+    border-radius: 8px;
+}
+
+#pop_up_data {
+    text-align: center;
+    margin-top: 20%;
+    font-size: 22px;
+    color: #fff;
+}
+
+#close_button > button {
+    margin-top: 10%;
+    margin-left: 38%;
+    border-radius: 10px;
+    background: #1cc09f;
+    border: 1px #fff;
+    color: #fff;
+}

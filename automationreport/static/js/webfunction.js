@@ -281,3 +281,20 @@ function show_close() {
     document.getElementById('pop_up_windows').style.display = "none";
     document.getElementById('pop_up_data').style.display = "none";
 }
+
+//清除输入框内容
+function clear_input(element_data) {
+    if (element_data.id == 'starttime' && element_data.value == '开始时间') {
+        document.getElementById('starttime').value = '';
+    }
+    else if (element_data.id == 'endtime' && element_data.value == '结束时间') {
+        document.getElementById('endtime').value = '';
+    }
+    else if (element_data.id == 'caseid' && element_data.value == '用例编号') {
+        document.getElementById('caseid').value = '';
+    }
+    else if (element_data.id == 'eventid' && element_data.value == '事件编号') {
+        document.getElementById('eventid').value = '';
+    }
+
+}
