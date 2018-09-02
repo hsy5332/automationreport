@@ -19,7 +19,7 @@ function querydata(buttonquery, sendd_ata) {
                     if (requests_data.length > 0) {
                         page_turning(buttonquery);
                     } else {
-                        window.alert("没有获取到任何数据");
+                        show_element("没有获取到任何数据!");
                     }
                 } catch (err) {
                     console.log(err)
@@ -49,17 +49,17 @@ function queryappcase(buttonquery) {
             }
             else {
                 if (startdate == '') {
-                    window.alert("请输入开始时间");
+                    show_element("请输入开始时间!");
                 }
                 else if (enddate == '') {
-                    window.alert("请输入结束时间");
+                    show_element("请输入结束时间!");
                 }
             }
         } else {
             querydata(buttonquery, sendd_ata)
         }
     } else {
-        window.alert("请输入事件编号");
+        show_element("请输入事件编号");
     }
 }
 
@@ -150,7 +150,7 @@ function page_turning(source) {
                     }
                 }
                 else {
-                    window.alert("最后一页没有数据了,自动跳转到首页");
+                    show_element("最后一页没有数据了,自动跳转到首页!");
                     page_turning(firstPage)
                 }
             } else if (source.id == "nextPage") {
@@ -188,7 +188,7 @@ function page_turning(source) {
                     currentpage = currentpage + 1;
                 }
                 else {
-                    window.alert("这已经是最后一页了,自动跳转到首页");
+                    show_element("这已经是最后一页了,自动跳转到首页!");
                     currentpage = 1;
                     page_turning(firstPage)
                 }
@@ -227,7 +227,7 @@ function page_turning(source) {
                 } else {
                     currentpage = 1;
                     page_turning(firstPage)
-                    window.alert("这已经是第一页");
+                    show_element("这已经是第一页!");
                 }
 
             } else {
@@ -257,7 +257,7 @@ function page_turning(source) {
             }
             document.getElementById('current_page').innerHTML = '，目前在第 ' + currentpage + ' 页';//页面显示共多少页
         } else {
-            window.alert("没有获取到任何数据");
+            show_element("没有获取到任何数据!");
         }
     }
 }
@@ -266,4 +266,18 @@ function page_turning(source) {
 function jumpWhereChange() {
     var displaynumber = document.getElementById('jumpWhere').options[jumpWhere.selectedIndex].value;
     page_turning(jumpWhere);
+}
+
+
+// 展示弹窗
+function show_element(content_data) {
+    document.getElementById('pop_up_windows').style.display = "block";
+    document.getElementById('pop_up_data').style.display = "block";
+    document.getElementById('pop_up_data').innerText = content_data;
+}
+
+//关闭弹窗
+function show_close() {
+    document.getElementById('pop_up_windows').style.display = "none";
+    document.getElementById('pop_up_data').style.display = "none";
 }

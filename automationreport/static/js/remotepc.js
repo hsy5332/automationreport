@@ -75,12 +75,12 @@ function get_devices(element_content) {
                     });
                 }
             } else {
-                alert('无法连接此主机，请检查该主机是否正常运行')
+                show_element('无法连接此主机，请检查该主机是否正常运行!')
             }
         }
     })
         .catch(res => {
-            alert('无法连接此主机，请检查该主机是否正常运行')
+            show_element('无法连接此主机，请检查该主机是否正常运行!')
         })
 }
 
@@ -88,7 +88,7 @@ function get_devices(element_content) {
 function upload_case(element_content) {
     var get_devices_ip = element_content.innerText.replace(/\s/g, "").split('获取设备')[0] //element_content 把整个元素传进来，分割字符串获取ip地址
     // 上传django的测试用例
-    alert("上传测试用例方法")
+    show_element("上传测试用例方法")
 
 }
 
@@ -96,7 +96,7 @@ function upload_case(element_content) {
 function run_case(element_content) {
     var get_devices_ip = element_content.innerText.replace(/\s/g, "").split('获取设备')[0] //element_content 把整个元素传进来，分割字符串获取ip地址
     // 上传django的测试用例
-    alert("执行测试用例方法")
+    show_element("执行测试用例方法")
 }
 
 // 检测数组中是否包含 某一个元素 true 是包含 false是不包含
@@ -110,4 +110,18 @@ function check_element_array(element) {
     } else {
         return false
     }
+}
+
+
+// 展示弹窗
+function show_element(content_data) {
+    document.getElementById('pop_up_windows').style.display = "block";
+    document.getElementById('pop_up_data').style.display = "block";
+    document.getElementById('pop_up_data').innerText = content_data;
+}
+
+//关闭弹窗
+function show_close() {
+    document.getElementById('pop_up_windows').style.display = "none";
+    document.getElementById('pop_up_data').style.display = "none";
 }
