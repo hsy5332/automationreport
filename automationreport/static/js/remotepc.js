@@ -3,7 +3,13 @@ var url = '/automationquery/remoteip';
 var send_data = '&token=' + token;
 var isshow_list = []; // 定义存放设备数组的列表
 axios.defaults.timeout = 2000; // 设置请求超时时间
+let config = {
+    headers: {
+        'Content-Type': 'multipart/form-data'
+    }
+}
 request_function(url, send_data);
+get_inferface_case();
 
 function request_function(request_url, send_data) {
     var requests_value;
@@ -32,9 +38,10 @@ function request_function(request_url, send_data) {
                             $.each(displaylist, function (i, item) {
                                 var html = '<div class="panel panel-default" style="width: 24%; height: 270px; float:left;margin-right:14px;' +
                                     '">';
-                                html += "<div class=\"panel-heading\"" + "id='show_devices" + i + "'" + "style=\"font-size: 13px;\">" + item.ip_address + "<div style='margin-top: 8px;'><button onclick=\"get_devices(show_devices" + i + ")\">获取设备</button>" + '&nbsp' + '&nbsp' + "<button onclick=\"upload_case(show_devices" + i + ")\">上传用例</button>" + '&nbsp' + '&nbsp' + "<button onclick=\"run_case(show_devices" + i + ")\">执行用例</button> </div>" + "<div style='margin-top: 3%'>选择测试用例 <select id='case_list'><option value='黄顺耀'>黄顺耀</option></select></div>" + '</div>';
+                                html += "<div class=\"panel-heading\"" + "id='show_devices" + i + "'" + "style=\"font-size: 13px;\">" + item.ip_address + "<div style='margin-top: 8px;'><button onclick=\"get_devices(show_devices" + i + ")\">获取设备</button>" + '&nbsp' + '&nbsp' + "<button onclick=\"upload_case(show_devices" + i + ")\">上传用例</button>" + '&nbsp' + '&nbsp' + "<button onclick=\"run_case('app',show_devices" + i + ")\">执行用例</button> </div>" + "<div style='margin-top: 3%'>选择用例 " + "<select id='case_list" + i + "'" + " style='width: 154px;'><option value='默认'>默认</option></select></div>" + '</div>';
                                 html += '</div>';
                                 $('#datapaging').append(html);
+                                get_run_case(item.ip_address, 'app', i);//获取测试用例
                             });
                         }
                     }
@@ -49,15 +56,15 @@ function request_function(request_url, send_data) {
 //获取设备ID
 function get_devices(element_content) {
     var get_devices_ip = element_content.innerText.replace(/\s/g, "").split('获取设备')[0] //element_content 把整个元素传进来，分割字符串获取ip地址
-    var request_formmat_data = new FormData()
-    var get_devices_url = 'http://' + get_devices_ip + '/automationserver/devicelist';
+    var request_formmat_data = new FormData();
+    var get_run_url = 'http://' + get_devices_ip + '/automationserver/devicelist';
     request_formmat_data.append('token', token)
     let config = {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     }
-    axios.post(get_devices_url, request_formmat_data, config).then(response_data => {
+    axios.post(get_run_url, request_formmat_data, config).then(response_data => {
         devices_list = response_data.data.data;
         $(".device_list").remove();
         if (devices_list.length > 0) {
@@ -94,46 +101,60 @@ function upload_case(element_content) {
 }
 
 // 执行用例 app web interface
-function run_case(element_content) {
-    var get_devices_ip = element_content.innerText.replace(/\s/g, "").split('获取设备')[0] //element_content 把整个元素传进来，分割字符串获取ip地址
-    // 上传django的测试用例
-    var file_name = 'app_function_case.xlsx';
-    var runcase_type = 'app';
-    var devices_list = document.getElementsByName('vehicle')
-    var devices_id_list = new Array();
-    if (devices_list.length > 0) {
-        for (var i = 0; i < devices_list.length; i++) {
-            if (devices_list[i].checked == true) {
-                console.log(devices_list[i].value)
-                devices_id_list[i] = devices_list[i].value; // 遍历页面input勾选的元素且加入到devices_id_list中
-                console.log(devices_id_list[i])
+function run_case(casetype, element_content) {
+    var runcase_type = casetype;
+    var request_formmat_data = new FormData()
+    if (casetype == 'app') {
+        var devices_id_list = new Array();
+        var get_devices_ip = element_content.innerText.replace(/\s/g, "").split('获取设备')[0] //element_content 把整个元素传进来，分割字符串获取ip地址
+        var get_run_url = 'http://' + get_devices_ip + '/automationserver/runcase';
+        var file_name = document.getElementById('case_list' + element_content.id.split('show_devices')[1]).value;
+        var devices_list = document.getElementsByName('vehicle')
+        if (devices_list.length > 0) {
+            for (var i = 0; i < devices_list.length; i++) {
+                if (devices_list[i].checked == true) {
+                    devices_id_list[i] = devices_list[i].value; // 遍历页面input勾选的元素且加入到devices_id_list中
+                }
             }
+            request_formmat_data.append('token', token);
+            request_formmat_data.append('filename', file_name);
+            request_formmat_data.append('runcasetype', runcase_type);
+            request_formmat_data.append('devicesid', devices_id_list);
+            axios.post(get_run_url, request_formmat_data, config).then(response_data => {
+                if (response_data.data.code != '200') {
+                    show_element(response_data.data.msg)
+                }
+
+            }).catch(res => {
+                show_element('请求接口失败！')
+            })
+        } else {
+            show_element("没有任何可执行的设备!")
         }
-        var request_formmat_data = new FormData()
-        var get_devices_url = 'http://' + get_devices_ip + '/automationserver/runcase';
+    } else {
+        var get_run_url = 'http://127.0.0.1:8988/automationserver/runcase';
         request_formmat_data.append('token', token);
-        request_formmat_data.append('filename', file_name);
         request_formmat_data.append('runcasetype', runcase_type);
-        request_formmat_data.append('devicesid', devices_id_list);
-        let config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+        if (casetype == 'interface') {
+            var file_name = document.getElementById('interface_case_option').value;
+        } else {
+            var file_name = document.getElementById('interface_case_option').value; //web
         }
-        axios.post(get_devices_url, request_formmat_data, config).then(response_data => {
-            console.log(response_data)
+        request_formmat_data.append('filename', file_name);
+        axios.post(get_run_url, request_formmat_data, config).then(response_data => {
+            if (response_data.data.code != '200') {
+                show_element(response_data.data.msg)
+            }
 
         }).catch(res => {
             show_element('请求接口失败！')
         })
-    } else {
-        show_element("没有任何可执行的设备!")
     }
+
 }
 
 // 检测数组中是否包含 某一个元素 true 是包含 false是不包含
 function check_element_array(element) {
-    console.log(element)
     if (isshow_list.length > 0) {
         if (isshow_list.indexOf(element) == 1 || isshow_list.indexOf(element) == 0) {
             return true
@@ -159,3 +180,53 @@ function show_close() {
     document.getElementById('pop_up_data').style.display = "none";
 }
 
+//获取测试用例
+function get_run_case(connect_ip, casetype, number) {
+    console.log(casetype)
+    if (casetype == 'app') {
+        var get_run_url = 'http://' + connect_ip + '/automationserver/getcasefile';
+    } else {
+        var get_run_url = connect_ip;
+    }
+    var request_formmat_data = new FormData()
+    request_formmat_data.append('token', token);
+    request_formmat_data.append('casetype', casetype);
+    axios.post(get_run_url, request_formmat_data, config).then(response_data => {
+        case_file_list = response_data.data.data
+        console.log(case_file_list)
+        if (case_file_list.length > 0) {
+
+            if (casetype == 'app') {
+                draw(case_file_list);
+
+                function draw(displaylist) {
+                    $.each(displaylist, function (i, item) {
+                        var html = '<option value="' + item + '">';
+                        html = html + item;
+                        html = html + '</option>';
+                        $('#case_list' + number).append(html);
+                    });
+                }
+            } else if (casetype == 'interface') {
+                console.log(case_file_list)
+                draw(case_file_list);
+
+                function draw(displaylist) {
+                    $.each(displaylist, function (i, item) {
+                        var html = '<option value="' + item + '">';
+                        html = html + item;
+                        html = html + '</option>';
+                        $('#interface_case_option').append(html);
+                    });
+                }
+            }
+        }
+    }).catch(res => {
+    })
+}
+
+// 获取接口自动化用例
+function get_inferface_case() {
+    var get_run_url = 'http://127.0.0.1:8988/automationserver/getcasefile';
+    get_run_case(get_run_url, 'interface', '0')
+}

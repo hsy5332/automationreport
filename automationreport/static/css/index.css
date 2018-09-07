@@ -27,3 +27,12 @@
     border: 1px #fff;
     color: #fff;
 }
+
+.interface_automation {
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.interface_automation > select{
+    width: 150px;
+}
