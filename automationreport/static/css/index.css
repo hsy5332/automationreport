@@ -33,6 +33,10 @@
     font-weight: normal;
 }
 
-.interface_automation > select{
+.interface_automation > select {
     width: 150px;
+}
+
+.click_button {
+    border-radius: 20px;
 }

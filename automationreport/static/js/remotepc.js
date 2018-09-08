@@ -38,7 +38,7 @@ function request_function(request_url, send_data) {
                             $.each(displaylist, function (i, item) {
                                 var html = '<div class="panel panel-default" style="width: 24%; height: 270px; float:left;margin-right:14px;' +
                                     '">';
-                                html += "<div class=\"panel-heading\"" + "id='show_devices" + i + "'" + "style=\"font-size: 13px;\">" + item.ip_address + "<div style='margin-top: 8px;'><button onclick=\"get_devices(show_devices" + i + ")\">获取设备</button>" + '&nbsp' + '&nbsp' + "<button onclick=\"upload_case(show_devices" + i + ")\">上传用例</button>" + '&nbsp' + '&nbsp' + "<button onclick=\"run_case('app',show_devices" + i + ")\">执行用例</button> </div>" + "<div style='margin-top: 3%'>选择用例 " + "<select id='case_list" + i + "'" + " style='width: 154px;'><option value='默认'>默认</option></select></div>" + '</div>';
+                                html += "<div class=\"panel-heading\"" + "id='show_devices" + i + "'" + "style=\"font-size: 13px;\">" + item.ip_address + "<div style='margin-top: 8px;'><button style='border-radius: 20px;' onclick=\"get_devices(show_devices" + i + ")\">获取设备</button>" + '&nbsp' + '&nbsp' + "<button style='border-radius: 20px;' onclick=\"upload_case(show_devices" + i + ")\">上传用例</button>" + '&nbsp' + '&nbsp' + "<button style='border-radius: 20px;' onclick=\"run_case('app',show_devices" + i + ")\">执行用例</button> </div>" + "<div style='margin-top: 3%;'>选择用例 " + "<select id='case_list" + i + "'" + " style='width: 154px;'><option value='默认'>默认</option></select></div>" + '</div>';
                                 html += '</div>';
                                 $('#datapaging').append(html);
                                 get_run_case(item.ip_address, 'app', i);//获取测试用例
@@ -138,7 +138,7 @@ function run_case(casetype, element_content) {
         if (casetype == 'interface') {
             var file_name = document.getElementById('interface_case_option').value;
         } else {
-            var file_name = document.getElementById('interface_case_option').value; //web
+            var file_name = document.getElementById('web_case_option').value; //web
         }
         request_formmat_data.append('filename', file_name);
         axios.post(get_run_url, request_formmat_data, config).then(response_data => {
@@ -182,7 +182,6 @@ function show_close() {
 
 //获取测试用例
 function get_run_case(connect_ip, casetype, number) {
-    console.log(casetype)
     if (casetype == 'app') {
         var get_run_url = 'http://' + connect_ip + '/automationserver/getcasefile';
     } else {
@@ -193,7 +192,6 @@ function get_run_case(connect_ip, casetype, number) {
     request_formmat_data.append('casetype', casetype);
     axios.post(get_run_url, request_formmat_data, config).then(response_data => {
         case_file_list = response_data.data.data
-        console.log(case_file_list)
         if (case_file_list.length > 0) {
 
             if (casetype == 'app') {
@@ -208,7 +206,6 @@ function get_run_case(connect_ip, casetype, number) {
                     });
                 }
             } else if (casetype == 'interface') {
-                console.log(case_file_list)
                 draw(case_file_list);
 
                 function draw(displaylist) {
@@ -217,6 +214,17 @@ function get_run_case(connect_ip, casetype, number) {
                         html = html + item;
                         html = html + '</option>';
                         $('#interface_case_option').append(html);
+                    });
+                }
+            } else if (casetype == 'web') {
+                draw(case_file_list);
+
+                function draw(displaylist) {
+                    $.each(displaylist, function (i, item) {
+                        var html = '<option value="' + item + '">';
+                        html = html + item;
+                        html = html + '</option>';
+                        $('#web_case_option').append(html);
                     });
                 }
             }
@@ -228,5 +236,6 @@ function get_run_case(connect_ip, casetype, number) {
 // 获取接口自动化用例
 function get_inferface_case() {
     var get_run_url = 'http://127.0.0.1:8988/automationserver/getcasefile';
-    get_run_case(get_run_url, 'interface', '0')
+    get_run_case(get_run_url, 'interface', '0');
+    get_run_case(get_run_url, 'web', '0');
 }
