@@ -6,7 +6,7 @@ function querydata(buttonquery, sendd_ata) {
     var appcasecount;
     senddata = sendd_ata;
     appcasecount = new XMLHttpRequest();
-    appcasecount.open("POST", "/automationquery/interface", true); // 接口地址
+    appcasecount.open("POST", "/automationquery/functioninterface", true); // 接口地址
     appcasecount.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     appcasecount.send(senddata);
     appcasecount.onreadystatechange = function () {

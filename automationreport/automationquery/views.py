@@ -746,15 +746,16 @@ def functionweb(request):
         return HttpResponse(json.dumps(functionapp_error))
 
 
-# 查询APP，WEB功能测试用例总数
+# 查询APP，WEB，接口功能测试用例总数
 def functioncount(request):
     if request.POST:
         try:
             if token(request.POST['token']):
                 app_functionappdatas = models.automation_function_app.objects.all()
                 web_functionappdatas = models.automation_function_web.objects.all()
+                interface_functionappdatas = models.automation_interface.objects.all()
                 functioncountdata = {
-                    'casecount': len(app_functionappdatas) + len(web_functionappdatas)
+                    'casecount': len(app_functionappdatas) + len(web_functionappdatas) + len(interface_functionappdatas)
                 }
                 return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": functioncountdata}))
             else:
@@ -808,6 +809,27 @@ def webfunctioncount(request):
     else:
         functionappdatas_error = {"code": "-12", "msg": "请求方式错误", "data": {}}
         return HttpResponse(json.dumps(functionappdatas_error))
+
+
+# 查询接口 测试用例总数
+def interfacecount(request):
+    if request.POST:
+        try:
+            if token(request.POST['token']):
+                interface_interfacedatas = models.automation_interface.objects.all()
+                interfacedata = {
+                    'casecount': len(interface_interfacedatas)
+                }
+                return HttpResponse(json.dumps({"code": "200", "msg": "succes", "data": interfacedata}))
+            else:
+                interfacedatas_tokenerror = {"code": "-11", "msg": "token过期", "data": {}}
+                return HttpResponse(json.dumps(interfacedatas_tokenerror))
+        except:
+            return HttpResponse(json.dumps({"code": "-13", "msg": "查询数据出错，请检查参数。", "data": {}}))
+
+    else:
+        interfacedatas_tokenerror = {"code": "-12", "msg": "请求方式错误", "data": {}}
+        return HttpResponse(json.dumps(interfacedatas_tokenerror))
 
 
 # 获取远程主机ip

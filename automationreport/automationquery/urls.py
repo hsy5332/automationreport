@@ -24,11 +24,12 @@ urlpatterns = [
                   url(r'^cpu', views.cpu),
                   url(r'^launchapp', views.launchapp),
                   url(r'^menapp', views.menapp),
-                  url(r'^interface', views.interface),
+                  url(r'^functioninterface', views.interface),
                   url(r'^functionapp', views.functionapp),
                   url(r'^functionweb', views.functionweb),
                   url(r'^functioncount', views.functioncount),
                   url(r'^appfunctioncount', views.appfunctioncount),
                   url(r'^webfunctioncount', views.webfunctioncount),
+                  url(r'^interfacecount', views.interfacecount),
                   url(r'^remoteip', views.get_remote_ip),
               ] + static(settings.STATIC_URL, docment_root=settings.STATIC_ROOT)
