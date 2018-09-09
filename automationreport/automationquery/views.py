@@ -1,7 +1,6 @@
 import time
 import json
-import datetime
-
+import os
 from django.shortcuts import render
 from . import models
 from django.http import HttpResponse
@@ -41,20 +40,9 @@ def memoryQuery(request):
     return render(request, 'memoryQuery.html')
 
 
-# def chart(request):
-#     return render(request,'chart.html')
-#
-# def empty(request):
-#     return render(request,'empty.html')
-#
-# def form(request):
-#     return render(request,'form.html')
-#
-# def tabpanel(request):
-#     return render(request,'tab-panel.html')
-#
-# def uielements(request):
-#     return render(request,'ui-elements.html')
+def test(request):
+    return render(request, 'test.html')
+
 
 # token计算规则
 def token(token):

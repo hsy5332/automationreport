@@ -38,7 +38,7 @@ function request_function(request_url, send_data) {
                             $.each(displaylist, function (i, item) {
                                 var html = '<div class="panel panel-default" style="width: 24%; height: 270px; float:left;margin-right:14px;' +
                                     '">';
-                                html += "<div class=\"panel-heading\"" + "id='show_devices" + i + "'" + "style=\"font-size: 13px;\">" + item.ip_address + "<div style='margin-top: 8px;'><button style='border-radius: 20px;' onclick=\"get_devices(show_devices" + i + ")\">获取设备</button>" + '&nbsp' + '&nbsp' + "<button style='border-radius: 20px;' onclick=\"upload_case(show_devices" + i + ")\">上传用例</button>" + '&nbsp' + '&nbsp' + "<button style='border-radius: 20px;' onclick=\"run_case('app',show_devices" + i + ")\">执行用例</button> </div>" + "<div style='margin-top: 3%;'>选择用例 " + "<select id='case_list" + i + "'" + " style='width: 154px;'><option value='默认'>默认</option></select></div>" + '</div>';
+                                html += "<div class=\"panel-heading\"" + "id='show_devices" + i + "'" + "style=\"font-size: 13px;\">" + item.ip_address + "<div style='margin-top: 8px;'>" + "<input style='display: inline; width: 180px; margin-bottom: 8px;' id='app_case_file" + i + "'" + "type=\"file\" name=\"casefile\"/><input type=\"submit\" value=\"上传用用例\" style='border-radius: 20px;' onclick=\"upload_case_file('app',show_devices" + i + ")\"></input>" + "<button style='border-radius: 20px;' onclick=\"get_devices(show_devices" + i + ")\">获取设备</button>" + '&nbsp' + '&nbsp' + "<button style='border-radius: 20px;' onclick=\"run_case('app',show_devices" + i + ")\">执行用例</button> </div>" + "<div style='margin-top: 3%;'>选择用例 " + "<select id='case_list" + i + "'" + " style='width: 154px;'><option value='默认'>默认</option></select></div>" + '</div>';
                                 html += '</div>';
                                 $('#datapaging').append(html);
                                 get_run_case(item.ip_address, 'app', i);//获取测试用例
@@ -76,7 +76,6 @@ function get_devices(element_content) {
                         var html = '<ol class="device_list" style="margin-left:-25px; margin-top: 8px;">';
                         html += '<li>' + "<input " + "id=\"input_check_box" + i + "\"" + "type=\"checkbox\" name=\"vehicle\" value=" + item + " checked=\"checked\"/>" + '&nbsp' + '&nbsp' + item + '</li>';
                         html = html + '</ol>';
-                        isshow_list.push(item)
                         $('#' + element_content.id).append(html);
                     });
                 }
@@ -93,11 +92,38 @@ function get_devices(element_content) {
 }
 
 // 上传测试用例
-function upload_case(element_content) {
-    var get_devices_ip = element_content.innerText.replace(/\s/g, "").split('获取设备')[0] //element_content 把整个元素传进来，分割字符串获取ip地址
-    // 上传django的测试用例
-    show_element("上传测试用例方法")
-
+function upload_case_file(casetype, element_content) {
+    var request_formmat_data = new FormData()
+    if (casetype == 'app') {
+        var get_computer_ip = 'http://' + element_content.innerText.replace(/\s/g, "").split('获取设备')[0] + '/automationserver/uploadcase' //element_content 把整个元素传进来，分割字符串获取ip地址
+        var case_file_id = 'app_case_file' + element_content.id.split('show_devices')[1] //获取选择文件框中的file id
+        var case_file = document.getElementById(case_file_id).files // 获取上传的测试用例文件
+        request_formmat_data.append('casefile', case_file[0]);
+        request_formmat_data.append('token', token);
+    } else {
+        var get_computer_ip = 'http://127.0.0.1:8988/automationserver/uploadcase'
+        var case_file = element_content.files //获取上传的测试用例文件
+        request_formmat_data.append('casefile', case_file[0]);
+        request_formmat_data.append('token', token);
+    }
+    if (case_file.length > 0) {
+        // 上传django的测试用例
+        axios.post(get_computer_ip, request_formmat_data, config).then(response_data => {
+            if (response_data.data.code == '200') {
+                show_element(response_data.data.msg);
+                if (casetype == 'app') { //上传完用例后需要再次获取新的用例列表
+                    get_run_case(element_content.innerText.replace(/\s/g, "").split('获取设备')[0], 'app', element_content.id.split('show_devices')[1])
+                } else {
+                    get_inferface_case()
+                }
+            } else {
+                show_element(response_data.data.msg)
+            }
+        }).catch(res => {
+        })
+    } else {
+        show_element('请上传测试用例')
+    }
 }
 
 // 执行用例 app web interface
@@ -193,35 +219,37 @@ function get_run_case(connect_ip, casetype, number) {
     axios.post(get_run_url, request_formmat_data, config).then(response_data => {
         case_file_list = response_data.data.data
         if (case_file_list.length > 0) {
-
             if (casetype == 'app') {
+                $(".appcasefilelist").remove();
                 draw(case_file_list);
 
                 function draw(displaylist) {
                     $.each(displaylist, function (i, item) {
-                        var html = '<option value="' + item + '">';
+                        var html = '<option class="appcasefilelist" value="' + item + '">';
                         html = html + item;
                         html = html + '</option>';
                         $('#case_list' + number).append(html);
                     });
                 }
             } else if (casetype == 'interface') {
+                $(".interfacecasefilelist").remove();
                 draw(case_file_list);
 
                 function draw(displaylist) {
                     $.each(displaylist, function (i, item) {
-                        var html = '<option value="' + item + '">';
+                        var html = '<option class="interfacecasefilelist" value="' + item + '">';
                         html = html + item;
                         html = html + '</option>';
                         $('#interface_case_option').append(html);
                     });
                 }
             } else if (casetype == 'web') {
+                $(".webcasefilelist").remove();
                 draw(case_file_list);
 
                 function draw(displaylist) {
                     $.each(displaylist, function (i, item) {
-                        var html = '<option value="' + item + '">';
+                        var html = '<option class="webcasefilelist" value="' + item + '">';
                         html = html + item;
                         html = html + '</option>';
                         $('#web_case_option').append(html);

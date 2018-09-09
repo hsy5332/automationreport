@@ -40,3 +40,13 @@
 .click_button {
     border-radius: 20px;
 }
+
+#web_case_file {
+    display: inline;
+    width: 158px;
+}
+
+#interface_case_file {
+    display: inline;
+    width: 158px;
+}
