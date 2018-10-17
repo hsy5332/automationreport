@@ -168,10 +168,7 @@ function run_case(casetype, element_content) {
         }
         request_formmat_data.append('filename', file_name);
         axios.post(get_run_url, request_formmat_data, config).then(response_data => {
-            if (response_data.data.code != '200') {
-                show_element(response_data.data.msg)
-            }
-
+            show_element(response_data.data.msg);
         }).catch(res => {
             show_element('请求接口失败！')
         })
