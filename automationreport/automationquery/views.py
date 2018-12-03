@@ -17,7 +17,7 @@ def index(request):
 
 
 def appQuery(request):
-    return render(request, 'appQuery.html')
+    return render(request, 'Appquery.html')
 
 
 def webFunctionQuery(request):
