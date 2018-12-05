@@ -2,6 +2,7 @@ var token = String(Date.parse(new Date()) + 86400).substring(0, 10);
 var url = '/automationquery/remoteip';
 var send_data = '&token=' + token;
 var isshow_list = []; // 定义存放设备数组的列表
+var localIP = ''
 axios.defaults.timeout = 2000; // 设置请求超时时间
 let config = {
     headers: {
@@ -9,7 +10,6 @@ let config = {
     }
 }
 request_function(url, send_data);
-get_inferface_case();
 
 function request_function(request_url, send_data) {
     var requests_value;
@@ -25,6 +25,8 @@ function request_function(request_url, send_data) {
                 try {
                     json_requests_datas = JSON.parse(requests_datas).data
                     displaylist = [];
+                    localIP = JSON.parse(requests_datas).data[0]
+                    get_inferface_case(localIP);
                     if (json_requests_datas.length > 0) {
                         for (var i = 0; i < json_requests_datas.length; i++) {
                             var ip_address = json_requests_datas[i];
@@ -101,7 +103,7 @@ function upload_case_file(casetype, element_content) {
         request_formmat_data.append('casefile', case_file[0]);
         request_formmat_data.append('token', token);
     } else {
-        var get_computer_ip = 'http://127.0.0.1:8988/automationserver/uploadcase'
+        var get_computer_ip = 'http://' + localIP + '/automationserver/uploadcase'
         var case_file = element_content.files //获取上传的测试用例文件
         request_formmat_data.append('casefile', case_file[0]);
         request_formmat_data.append('token', token);
@@ -114,7 +116,7 @@ function upload_case_file(casetype, element_content) {
                 if (casetype == 'app') { //上传完用例后需要再次获取新的用例列表
                     get_run_case(element_content.innerText.replace(/\s/g, "").split('获取设备')[0], 'app', element_content.id.split('show_devices')[1])
                 } else {
-                    get_inferface_case()
+                    get_inferface_case(localIP)
                 }
             } else {
                 show_element(response_data.data.msg)
@@ -259,8 +261,9 @@ function get_run_case(connect_ip, casetype, number) {
 }
 
 // 获取接口自动化用例
-function get_inferface_case() {
-    var get_run_url = 'http://127.0.0.1:8988/automationserver/getcasefile';
+function get_inferface_case(remoteIP) {
+    var get_run_url = 'http://' + remoteIP + '/automationserver/getcasefile';
     get_run_case(get_run_url, 'interface', '0');
     get_run_case(get_run_url, 'web', '0');
 }
+
