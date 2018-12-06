@@ -160,7 +160,7 @@ function run_case(casetype, element_content) {
             show_element("没有任何可执行的设备!")
         }
     } else {
-        var get_run_url = 'http://127.0.0.1:8988/automationserver/runcase';
+        var get_run_url = 'http://' + localIP + '/automationserver/runcase';
         request_formmat_data.append('token', token);
         request_formmat_data.append('runcasetype', runcase_type);
         if (casetype == 'interface') {
